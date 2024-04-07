@@ -1,0 +1,46 @@
+.gamemap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+}
+
+.tile{
+    background-color: #00e1ff46;
+    width: calc(((50vw + 50vh) / 2) / 32);
+    height: calc(((50vw + 50vh) / 2) / 32);
+}
+
+.side-menu{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: calc((20vw + 20vh) / 2);
+    height: calc((50vw + 50vh) / 2);
+    background-color: #b1d97e;
+    border-left: 1px solid black;
+}
+.defenders{
+    flex-wrap: wrap;
+}
+
+.defender{
+    border-radius: 3px;
+    width: calc(((5vw + 5vh) / 2));
+    height: calc(((5vw + 5vh) / 2));
+    background-color: gray;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 3px;
+    margin: calc(((0.16vw + 0.16vh) / 2));
+}
+
+.stats-container{
+    margin-top: 0.33vh;
+    margin-left: 0.33vw;
+}
+
+.selected{
+    border-color: crimson;
+}
+

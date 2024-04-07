@@ -1,0 +1,13 @@
+.router-div{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: calc((66vw + 66vh) / 2);
+    height: calc((50vw + 50vh) / 2);
+    border-style: double;
+    border-width: 10px;
+    border-color: black;
+    background-color: var(--main-color-light);
+    border-radius: calc((0.5vh + 0.5vw) / 2);
+}

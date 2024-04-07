@@ -1,1 +1,104 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --main-color-dark: #2b4729;
+    --main-color-light: #6dc16d;
+    --main-font: 'Roboto', sans-serif;
+}
+
+.main-body{
+    margin: 0;
+    background-color: var(--main-color-dark);
+    font-family: var(--main-font);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-center{
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-justify-space-between{
+    justify-content: space-between;
+}
+
+.flex-justify-space-around{
+    justify-content: space-around;
+}
+
+.flex-justify-space-even{
+    justify-content: space-evenly;
+}
+
+.flex-row{
+    flex-direction: row;
+}
+
+.flex-column{
+    flex-direction: column;
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+.full-size{
+    height: 100%;
+    width: 100%;
+}
+
+.title{
+    font-size: calc((4vh + 4vw) / 2);
+    font-weight: bold;
+}
+
+.sub-title{
+    font-size: calc((3vh + 3vh) / 2);
+    font-weight: bold;
+
+}
+
+.h2{
+    font-size: calc((2.88vh + 2.88vw) / 2);
+}
+
+.h3{
+    font-size: calc((2vh + 2vw) / 2);
+}
+
+.h4{
+    font-size: calc((1.44vh + 1.44vw) / 2);
+}
+
+.white{
+    color: white;
+}
+
+.a-no-underline{
+    text-decoration: none;
+}
+
+.play-button {
+    background-color: #ff4081;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: #ff6699;
+    }
+}
+
+.margins-big{
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    margin-left: 2vw;
+    margin-right: 2vw;
+}

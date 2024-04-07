@@ -1,0 +1,13 @@
+
+<div class="flex flex-column full-size flex-center flex-justify-space-even">
+    <div class="title">Select a Level</div>
+
+    <div class="flex flex-row flex-wrap flex-center">
+        <a *ngFor="let level of levels, let i = index" class="level-card flex flex-center flex-column a-no-underline" routerLink="/game/{{(i+1)}}">
+            <img [src]="level.background" class="level-card-image" />
+            <div class="flex flex-center level-card-title sub-title">{{level.name}}</div>
+            <div class="level-card-difficulty h4" [style.color]="GetDifficultyColor(level.difficulty)">{{GetDifficultyName(level.difficulty)}}</div>
+        </a>
+    </div>
+</div>
+

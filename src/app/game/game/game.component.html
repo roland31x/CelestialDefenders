@@ -1,0 +1,36 @@
+<div class="gamemap">
+    <ng-container *ngFor="let tileRow of this.mapTiles; let row = index">
+        <div class="tile" *ngFor="let tile of tileRow; let col = index" [style.grid-column]="col + 1" [style.grid-row]="row + 1">
+
+        </div>
+    </ng-container>
+</div>
+
+<div class="side-menu flex flex-column flex-center">
+    <div class="h3">ROUND 1 / 29</div>
+    <div class="h4">Money: 100$</div>
+    <div class="sub-title" style="margin-top: 5px;">Defenders</div>
+    <div class="full-size">
+        <div class="flex flex-row flex-center defenders">
+            <div class="defender" *ngFor="let defender of defenders" [class.selected]="this.selectedDefender == defender" [style.background-image]="defender.image" (click)="SelectDefender(defender)"></div>
+        </div>
+    </div>
+    <div class="full-size" *ngIf="this.selectedDefender">
+        <div class="flex flex-center flex-column">
+            <div class="h2">{{this.selectedDefender.name}}</div>
+            <div class="h3">{{this.selectedDefender.cost}}$</div>
+            <div class="h4">{{this.selectedDefender.description}}</div>   
+        </div>
+        <div class="stats-container h4">
+            <div>Damage: {{this.selectedDefender.damage}}</div>
+            <div>Range: {{this.selectedDefender.range}}</div>
+            <div>Attack Speed: {{this.selectedDefender.attack_speed}}</div>
+        </div>  
+    </div>
+    <div class="play-button flex flex-center margins-big">
+        Restart
+    </div>
+   
+    
+</div>
+
