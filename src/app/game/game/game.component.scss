@@ -3,12 +3,34 @@
     top: 0;
     left: 0;
     display: grid;
+    z-index: 999;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.attackermap{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.defendermap{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.defender-placer{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0px;
+    left: 0px;
 }
 
 .tile{
     background-color: #00e1ff46;
-    width: calc(((50vw + 50vh) / 2) / 32);
-    height: calc(((50vw + 50vh) / 2) / 32);
 }
 
 .side-menu{
@@ -26,13 +48,36 @@
 
 .defender{
     border-radius: 3px;
-    width: calc(((5vw + 5vh) / 2));
-    height: calc(((5vw + 5vh) / 2));
-    background-color: gray;
+    width: calc(((4vw + 4vh) / 2));
+    height: calc(((4vw + 4vh) / 2));
+    background-color: var(--main-color-dark);
     border-color: transparent;
     border-style: solid;
     border-width: 3px;
     margin: calc(((0.16vw + 0.16vh) / 2));
+}
+
+.defender-obj{
+    position: absolute;
+    width: calc(((3vw + 3vh) / 2));
+    height: calc(((3vw + 3vh) / 2));
+    transform: translate(-50%, -50%);
+}
+
+.range{
+    position: absolute;
+    background-color: #ff000048;
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.defender:hover{
+    cursor: pointer;
+}
+
+.defender-img{
+    background-size: cover; 
+    background-position: center; 
 }
 
 .stats-container{
@@ -42,5 +87,9 @@
 
 .selected{
     border-color: crimson;
+}
+
+.invalid{
+    background-color: #ff000048;
 }
 
