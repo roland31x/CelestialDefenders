@@ -3,7 +3,9 @@ import { LevelModel } from './classes/levels/level-model';
 import { Level1 } from './classes/levels/level1';
 import { Level2 } from './classes/levels/level2';
 import { Level3 } from './classes/levels/level3';
-import { DefenderModel } from './classes/defender';
+import { DefenderModel } from './classes/defenders/defender';
+import { ArcherModel } from './classes/defenders/archer';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,12 +19,31 @@ export class EngineService {
   ];
 
   public DefenderModels: DefenderModel[] = [
-    new DefenderModel(1, 1, 1, 1, "1"),
-    new DefenderModel(2, 2, 2, 2, "2"),
-    new DefenderModel(3, 3, 3, 3, "3"),
-    new DefenderModel(1, 1, 1, 1, "1"),
-    new DefenderModel(2, 2, 2, 2, "2"),
+    new ArcherModel(),
+
   ];
+
+  private StatMapValues: Map<string, { min: number, max: number }> = new Map([
+    ["Damage", { min: 1, max: 25 }],
+    ["Range", { min: 1, max: 10 }],
+    ["AttackSpeed", { min: 0.25, max: 2 }]
+  ]);
+
+  private GetPercent(value: number, min: number, max: number): number {
+    return Math.floor((value - min) / (max - min) * 100);
+  }
+
+  public GetDamagePercent(value: number): number {
+    return this.GetPercent(value, this.StatMapValues.get("Damage")!.min, this.StatMapValues.get("Damage")!.max);
+  }
+
+  public GetRangePercent(value: number): number {
+    return this.GetPercent(value, this.StatMapValues.get("Range")!.min, this.StatMapValues.get("Range")!.max);
+  }
+
+  public GetAttackSpeedPercent(value: number): number {
+    return this.GetPercent(value, this.StatMapValues.get("AttackSpeed")!.min, this.StatMapValues.get("AttackSpeed")!.max);
+  }
 
   constructor() { }
 

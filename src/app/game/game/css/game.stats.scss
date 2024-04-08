@@ -1,0 +1,41 @@
+.stats-container{
+    margin-top: 0.33vh;
+    margin-left: 0.33vw;
+    height: auto;
+    width: auto;
+}
+
+.stat-bar{
+    position: relative; 
+    align-self: center; 
+    width: calc((8vw + 8vh) / 2); 
+    height: calc((1vh + 1vw) / 2); 
+    background-color: black;
+}
+
+.stat-bar-fill{
+    position: absolute; 
+    height: calc((1vh + 1vw) / 2); 
+    background-color: #689b6a;
+}
+
+.invalid{
+    background-color: #ff000048;
+}
+
+.upgrade{
+    box-sizing: border-box;
+    background-color: #79bb76;
+    border-radius: 5px;
+    padding: calc((1vh + 1vw) / 2);
+}
+
+.upgrade:hover{
+    background-color: #72a02d;
+    cursor: pointer;
+}
+
+.no-money{
+    background-color: #ff000048 !important;
+    cursor: not-allowed !important;
+}

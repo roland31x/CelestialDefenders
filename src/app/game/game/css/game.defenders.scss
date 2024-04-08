@@ -1,0 +1,79 @@
+.defendermap{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.defender-placer{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 0px;
+    left: 0px;
+}
+
+.defenders{
+    flex-wrap: wrap;
+}
+
+.defender{
+    border-radius: 3px;
+    width: calc(((4vw + 4vh) / 2));
+    height: calc(((4vw + 4vh) / 2));
+    background-color: var(--main-color-dark);
+    border-color: transparent;
+    border-style: solid;
+    border-width: 3px;
+    margin: calc(((0.16vw + 0.16vh) / 2));
+}
+
+.defender-obj{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(((3vw + 3vh) / 2));
+    height: calc(((3vw + 3vh) / 2));
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    border-radius: 100%;
+    border-width: 2px;
+    border-color: transparent;
+    border-style: solid;
+}
+
+.selected-def{
+    border-color: magenta;
+}
+
+.defender-obj:hover{
+    cursor: pointer;
+}
+
+.range{
+    position: absolute;
+    background-color: #98989848;
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+}
+
+.unplacable{
+    background-color: #ff000048;
+}
+
+.defender:hover{
+    cursor: pointer;
+}
+
+.defender-img{
+    background-size: cover; 
+    background-position: center; 
+}
+
+.selected{
+    border-color: crimson;
+}
+
+.defender-desc{
+    margin: 5px 15px;
+    text-align: center;
+}
+

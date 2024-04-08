@@ -1,0 +1,21 @@
+.projectile-obj{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc(((3vw + 3vh) / 2));
+    height: calc(((3vw + 3vh) / 2));
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    border-radius: 100%;
+}
+
+.projectile-img{
+    background-size: cover; 
+    background-position: center; 
+}
+
+.projectilemap{
+    position: absolute;
+    top: 0;
+    left: 0;
+}

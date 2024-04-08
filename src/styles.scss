@@ -11,6 +11,14 @@
     font-family: var(--main-font);
 }
 
+.grid{
+    display: grid;
+}
+
+.text-end{
+    text-align: end;
+}
+
 .flex {
   display: flex;
 }
@@ -101,4 +109,12 @@
     margin-bottom: 2vh;
     margin-left: 2vw;
     margin-right: 2vw;
+}
+
+.margin-right-1vw{
+    margin-right: 1vw;
+}
+
+.full-width{
+    width: 100%;
 }
