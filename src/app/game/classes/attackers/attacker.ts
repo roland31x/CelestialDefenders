@@ -1,24 +1,36 @@
+import { AttackerModel } from "./attacker-model";
+
 export class Attacker{
     public x: number = 0;
     public y: number = 0;
     public spawned: boolean = false;
     public alive: boolean = false;
-    public health: number;
-    public speed: number;
-    public damage: number;
+    public readonly model : AttackerModel;
     public angle: number = 0;
-    public image: string = "url(assets/defenders/archer.png)";
+    public _currenthealth: number = 9999;
+    public get image(){
+        return this.model.image;
+    }
+    public get health(){
+        return this._currenthealth;
+    }
+    public set health(value: number){
+        this._currenthealth = value;
+    }
+
+
+    public get speed(){
+        return this.model.speed;
+    }
 
     private _pathidx: number = -1;
     public get PathIdx(){
         return this._pathidx;
     }
 
-    public constructor(health: number, speed: number, damage: number, image: string){
-        this.health = health;
-        this.speed = speed;
-        this.damage = damage;
-        this.image = image;
+    public constructor(model: AttackerModel){
+        this.model = model;
+        this._currenthealth = model.health;
     }
 
     public MoveToward(x: number, y: number){

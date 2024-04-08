@@ -9,6 +9,7 @@ export class Defender{
     private _upgrades: DefenderUpgrade[] = [];
 
     public active = false;
+    public angle = 0;
 
     get availableUpgrades() : DefenderUpgrade[] {
         return this.model.availableUpgrades.filter(upgrade => !this._upgrades.includes(upgrade));
@@ -76,7 +77,7 @@ export abstract class DefenderModel{
     public range: number = 0;
     public cost: number = 0;
     public name: string = "defender";
-    public image: string = "url(assets/defenders/archer.png)";
+    public abstract image: string;
     public description: string = "A basic defender."
 
     public availableUpgrades : DefenderUpgrade[] = [];

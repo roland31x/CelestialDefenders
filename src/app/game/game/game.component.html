@@ -8,7 +8,7 @@
 
 <div class="defendermap halfviewbox">
     <ng-container *ngFor="let defender of defenders">
-        <div class="defender-obj" [class.selected-def]="selectedDefender == defender" [style.top]='defender.y + "%"' [style.left]='defender.x + "%"' (click)="SelectExisting(defender)">
+        <div class="defender-obj" [class.selected-def]="selectedDefender == defender" [style.transform]='"translate(-50%,-50%) rotate(" + defender.angle + "rad)"' [style.top]='defender.y + "%"' [style.left]='defender.x + "%"' (click)="SelectExisting(defender)">
             <div class="full-size defender-img" [style.background-image]="defender.model.image"></div>
         </div>
         <div class="range" *ngIf="selectedDefender == defender" [style.top]='defender.y + "%"' [style.left]='defender.x + "%"' [style.width]="GetViewRangeRadius(defender.model)" [style.height]="GetViewRangeRadius(defender.model)"></div>
@@ -17,7 +17,7 @@
 
 <div class="attackermap halfviewbox">
     <ng-container *ngFor="let attacker of attackers">
-        <div class="attacker-obj" *ngIf="attacker.spawned && attacker.alive"  [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
+        <div class="attacker-obj" *ngIf="attacker.spawned && attacker.alive" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad)"' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
             <div class="full-size attacker-img" [style.background-image]="attacker.image"></div>
         </div>
     </ng-container>
@@ -25,7 +25,7 @@
 
 <div class="projectilemap halfviewbox">
     <ng-container *ngFor="let projectile of projectiles">
-        <div *ngIf="!projectile.finished" class="projectile-obj" [style.top]="projectile.y + '%'" [style.left]="projectile.x + '%'">
+        <div *ngIf="!projectile.finished" class="projectile-obj" [style.transform]='"translate(-50%,-50%) rotate(" + projectile.angle + "rad)"' [style.top]="projectile.y + '%'" [style.left]="projectile.x + '%'">
             <div class="full-size projectile-img" [style.background-image]="projectile.image"></div>
         </div>
     </ng-container>
@@ -121,7 +121,10 @@
             Sell for {{selectedDefender.SellValue()}}$
         </div>
     </div>
-    <div class="play-button flex flex-center margins-big" (click)="reset()">
+    <div class="play-button flex flex-center margins-big" (click)="start()" *ngIf="!gameStarted">
+        Start
+    </div>
+    <div class="play-button flex flex-center margins-big" (click)="reset()" *ngIf="gameStarted">
         Restart
     </div>
    

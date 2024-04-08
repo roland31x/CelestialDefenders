@@ -7,11 +7,12 @@ import { Arrow } from "../projectiles/projectile-model";
 import { Projectile } from "../projectiles/projectile";
 
 export class ArcherModel extends DefenderModel{
+    public override image = "url(assets/defenders/archer.png)";
+
     public constructor(){
         super(6, 6, 100, 1, "Archer");
         this.availableUpgrades = [new ExtraDamage(), new ExtraRange(), new ExtraAttackSpeed()];
-        this.image = "url(assets/defenders/archer.png)";
-        this.description = "A basic archer that targets the closest enemy.";
+        this.description = "A basic archer that targets the farthest progressed enemy";
     }
 
     public override GetProjectilesFiredAt(attackers: Attacker[]) : Projectile[]{

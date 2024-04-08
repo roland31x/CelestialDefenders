@@ -71,9 +71,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._defenders;
   }
 
-  private _attackers : Attacker[] = [
-    new Attacker(18, 0.0566, 10, "url(assets/defenders/archer.png)"),
-  ];
+  private _attackers : Attacker[] = [];
   get attackers(){
     return this._attackers;
   }
@@ -113,7 +111,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private _updateSub: any;
   ngOnInit(){
-    this._levelModel = this.engine.Levels[(parseInt(window.location.pathname.split("/")[2]) - 1)];
+    this.reset();
 
     this._updateSub = setInterval(() => {
       this.UIUpdate();
@@ -305,18 +303,27 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   gameStarted = false;
-  private _spawninterval = 1;
   start(){
     this.gameStarted = true;
     this.runDefenders();
-    this.zone.runOutsideAngular(() => {
-      this.attackers.forEach(attacker => {
-        let sp = this._levelModel.GetRandomSpawnpoint();
-        attacker.SetSpawnPoint(sp.x, sp.y);
-        attacker.Lifetime(this._levelModel.Pathing);
-        this.hbcheck(attacker);
-      });
-    });
+    this.zone.runOutsideAngular(() => this.spawnEnemies())
+  }
+
+  private _spawninterval = 1;
+  async spawnEnemies(){
+
+    while(this.attackers.some(att => !att.spawned)){
+
+      let attacker = this.attackers.find(att => !att.spawned)!;
+      let sp = this._levelModel.GetRandomSpawnpoint();
+      attacker.SetSpawnPoint(sp.x, sp.y);
+      attacker.Lifetime(this._levelModel.Pathing);
+      this.hbcheck(attacker);
+
+      await new Promise(r => setTimeout(r, this._spawninterval));
+    }
+
+    
   }
 
   async runDefenders(){
@@ -389,6 +396,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
           this.projectiles.push(p);
           p.Lifetime();
           this.projhbcheck(p);
+          defender.angle = p.angle;
         });       
         await new Promise(r => setTimeout(r, 1000 * defender.model.attack_speed));
       }
@@ -399,11 +407,11 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reset(){
+    this.gameStarted = false;
     this.clear();
     this.reinit();
-
-    //this.money = 550;
-    //this.currentRound = 0;
+    this.money = 550;
+    this.currentRound = 0;
   }
 
   reinit(){

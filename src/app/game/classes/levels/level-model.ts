@@ -91,8 +91,6 @@ export abstract class LevelModel{
                 }
             });
         });
-
-        console.log(this.Pathing);
     }
 }
 

@@ -1,4 +1,5 @@
 import { Attacker } from "../attackers/attacker";
+import { BasicAttacker } from "../attackers/attacker-model";
 import { LevelModel, Difficulty } from "./level-model";
 
 export class Level1 extends LevelModel {
@@ -12,7 +13,11 @@ export class Level1 extends LevelModel {
     }
 
     public override GetRandomAttackers(): Attacker[] {
-        return [];
+        let attackers: Attacker[] = [];
+        for(let i = 0; i < 10; i++){
+            attackers.push(new Attacker(new BasicAttacker()));
+        }
+        return attackers;
     }
 
     protected BuildHitboxMap(){
@@ -52,8 +57,5 @@ export class Level1 extends LevelModel {
         ]
         
         super.BuildPathing();
-
-        console.log(this.SpawnPoints);
-        console.log(this.EndPoints);
     }
 }
