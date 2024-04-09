@@ -6,6 +6,7 @@ import { LevelModel } from '../classes/levels/level-model';
 import { DefenderUpgrade } from '../classes/defenders/defender-upgrades';
 import { Attacker } from '../classes/attackers/attacker';
 import { Projectile } from '../classes/projectiles/projectile';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -64,8 +65,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     this._selectedDefender = value;
   }
-
-  private _levelModel : LevelModel = this.engine.Levels[0];
+  private _level: number = 1;
+  private _levelModel : LevelModel = this.engine.Levels[this._level - 1];
   private _defenders : Defender[] = [];
   get defenders(){
     return this._defenders;
@@ -93,6 +94,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     private engine: EngineService,
     private zone: NgZone,
+    private activatedRoute: ActivatedRoute
   ) { 
     
   }
@@ -110,7 +112,13 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _updateSub: any;
+  private _routeSub: any;
   ngOnInit(){
+
+    this._routeSub = this.activatedRoute.params.subscribe(params => {
+      this._level = parseInt(params['level']);
+    });
+
     this.reset();
 
     this._updateSub = setInterval(() => {
@@ -148,6 +156,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(){
     clearInterval(this._updateSub);
     this.clear();
+    this._routeSub.unsubscribe();
   }
 
   MouseEnter(){
@@ -415,7 +424,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reinit(){
-    this._levelModel = this.engine.Levels[(parseInt(window.location.pathname.split("/")[2]) - 1)];
+    this._levelModel = this.engine.Levels[this._level - 1];
     this._defenders = [];
     this._attackers = this._levelModel.GetRandomAttackers();
     this._spawninterval = this._levelModel.spawnInterval;
