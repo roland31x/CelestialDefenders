@@ -11,6 +11,11 @@ export class Projectile {
     public get image(){
         return this.model.image;
     }
+
+    public get hitboxRadius(){
+        return 3;
+    }
+
     public constructor(target: {x: number, y: number} | Attacker, model: ProjectileModel){
         this.target = target;
         this.model = model;

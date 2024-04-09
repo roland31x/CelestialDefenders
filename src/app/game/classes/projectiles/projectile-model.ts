@@ -20,9 +20,17 @@ export class Arrow extends ProjectileModel{
 }
 
 export class Bomb extends ProjectileModel{
-    public override image = "url(assets/projectiles/arrow.png)";
+    public override image = "url(assets/projectiles/bomb.png)";
 
     constructor(damage: number){
         super(0.2, damage);
+    }
+}
+
+export class MagicBall extends ProjectileModel{
+    public override image = "url(assets/projectiles/magicball.png)";
+
+    constructor(damage: number){
+        super(0.3, damage);
     }
 }

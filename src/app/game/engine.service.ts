@@ -5,6 +5,7 @@ import { Level2 } from './classes/levels/level2';
 import { Level3 } from './classes/levels/level3';
 import { DefenderModel } from './classes/defenders/defender';
 import { ArcherModel } from './classes/defenders/archer';
+import { MageModel } from './classes/defenders/mage';
 
 
 @Injectable({
@@ -20,7 +21,7 @@ export class EngineService {
 
   public DefenderModels: DefenderModel[] = [
     new ArcherModel(),
-
+    new MageModel(),
   ];
 
   private StatMapValues: Map<string, { min: number, max: number }> = new Map([

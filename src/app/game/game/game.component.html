@@ -11,13 +11,13 @@
         <div class="defender-obj" [class.selected-def]="selectedDefender == defender" [style.transform]='"translate(-50%,-50%) rotate(" + defender.angle + "rad)"' [style.top]='defender.y + "%"' [style.left]='defender.x + "%"' (click)="SelectExisting(defender)">
             <div class="full-size defender-img" [style.background-image]="defender.model.image"></div>
         </div>
-        <div class="range" *ngIf="selectedDefender == defender" [style.top]='defender.y + "%"' [style.left]='defender.x + "%"' [style.width]="GetViewRangeRadius(defender.model)" [style.height]="GetViewRangeRadius(defender.model)"></div>
+        <div class="range" *ngIf="selectedDefender == defender" [style.top]='defender.y + "%"' [style.left]='defender.x + "%"' [style.width]="GetViewRangeRadius(defender.range)" [style.height]="GetViewRangeRadius(defender.range)"></div>
     </ng-container> 
 </div>
 
 <div class="attackermap halfviewbox">
     <ng-container *ngFor="let attacker of attackers">
-        <div class="attacker-obj" *ngIf="attacker.spawned && attacker.alive" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad)"' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
+        <div class="attacker-obj" *ngIf="attacker.spawned && attacker.alive" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad) scale(" + attacker.scale + ")" ' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
             <div class="full-size attacker-img" [style.background-image]="attacker.image"></div>
         </div>
     </ng-container>
@@ -35,7 +35,7 @@
     <div class="defender-obj">
         <div class="full-size defender-img" [style.background-image]="selectedDefenderModel.image"></div>
     </div>
-    <div class="range" [class.unplacable]="!canPlaceDefender()" [style.width]="GetViewRangeRadius(selectedDefenderModel)" [style.height]="GetViewRangeRadius(selectedDefenderModel)"></div>
+    <div class="range" [class.unplacable]="!canPlaceDefender()" [style.width]="GetViewRangeRadius(selectedDefenderModel.range)" [style.height]="GetViewRangeRadius(selectedDefenderModel.range)"></div>
 </div>
 
 <div class="side-menu flex flex-column flex-center">

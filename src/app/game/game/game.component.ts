@@ -214,8 +214,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       let cx = x + dir[0] * defr;
       let cy = y + dir[1] * defr;
 
-      let hbheight = (((50 * vw!) / 100 + (50 * vh!) / 100) / 2) / this._levelModel.Height;
-      let hbwidth = (((50 * vw!) / 100 + (50 * vh!) / 100) / 2) / this._levelModel.Width;
+      let hbheight = (((60 * vw!) / 100 + (60 * vh!) / 100) / 2) / this._levelModel.Height;
+      let hbwidth = (((60 * vw!) / 100 + (60 * vh!) / 100) / 2) / this._levelModel.Width;
 
       let actualh = Math.floor(cy / hbheight);
       let actualw = Math.floor(cx / hbwidth);
@@ -284,15 +284,15 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   GetTileHeight() : string{
-    return `calc(((50vw + 50vh) / 2) / ${this._levelModel.Height})`;
+    return `calc(((60vw + 60vh) / 2) / ${this._levelModel.Height})`;
   }
 
   GetTileWidth() : string{
-    return `calc(((50vw + 50vh) / 2) / ${this._levelModel.Width})`;
+    return `calc(((60vw + 60vh) / 2) / ${this._levelModel.Width})`;
   }
 
-  GetViewRangeRadius(defender: DefenderModel){
-    let percentage = this.engine.GetRangePercent(defender.range);
+  GetViewRangeRadius(range: number) : string {
+    let percentage = this.engine.GetRangePercent(range);
     let viewpercentage = percentage / 100 * 25;
     return `calc((${viewpercentage}vw + ${viewpercentage}vh) / 2)`;
   }
@@ -353,7 +353,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.defenders.forEach(defender => {
         let defradius = this.GetRangeRadius(defender);
         let dist = (defender.x - x) * (defender.x - x) + (defender.y - y) * (defender.y - y);
-        if(dist - 5 < defradius * defradius){
+        if(dist < (defradius + att.hitboxRadius) * (defradius + att.hitboxRadius)){
           if(!this.defendersMap.get(defender)!.includes(att)){
             this.defendersMap.get(defender)!.push(att);
           }
@@ -378,7 +378,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
         let x = attacker.x;
         let y = attacker.y;
         let dist = (projectile.x - x) * (projectile.x - x) + (projectile.y - y) * (projectile.y - y);
-        if(dist < 15){
+        console.log(dist);
+        if(dist + 16 < (projectile.hitboxRadius + attacker.hitboxRadius) * (projectile.hitboxRadius + attacker.hitboxRadius)){
           attacker.health -= projectile.model.damage;
           projectile.finished = true;
           console.log("hit");
@@ -407,7 +408,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
           this.projhbcheck(p);
           defender.angle = p.angle;
         });       
-        await new Promise(r => setTimeout(r, 1000 * defender.model.attack_speed));
+        await new Promise(r => setTimeout(r, 1000 / defender.model.attack_speed));
       }
       else{
         await new Promise(r => setTimeout(r, 25));

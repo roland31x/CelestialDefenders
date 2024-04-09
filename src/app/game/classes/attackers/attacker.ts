@@ -7,7 +7,16 @@ export class Attacker{
     public alive: boolean = false;
     public readonly model : AttackerModel;
     public angle: number = 0;
+
+    public get hitboxRadius(){
+        return 2.33 * this.scale;
+    }
+
     public _currenthealth: number = 9999;
+
+    public get scale(){
+        return this.model.sizeScale;
+    }
     public get image(){
         return this.model.image;
     }

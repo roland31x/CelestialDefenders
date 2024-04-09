@@ -1,12 +1,12 @@
 import { Attacker } from "../attackers/attacker";
-import { BasicAttacker } from "../attackers/attacker-model";
+import { BasicAttacker, Boss, FastAttacker, Guard, HeavyAttacker } from "../attackers/attacker-model";
 import { LevelModel, Difficulty } from "./level-model";
 
 export class Level1 extends LevelModel {
     public background: string = "assets/level1.png";
     public override difficulty = Difficulty.EASY;
     public override name = "Green Hills";
-    public override spawnInterval: number = 1000;
+    public override spawnInterval: number = 2500;
     constructor(){
         super();
         this.BuildHitboxMap();
@@ -14,8 +14,17 @@ export class Level1 extends LevelModel {
 
     public override GetRandomAttackers(): Attacker[] {
         let attackers: Attacker[] = [];
-        for(let i = 0; i < 10; i++){
+        for(let i = 0; i < 50; i++){
             attackers.push(new Attacker(new BasicAttacker()));
+            if(i % 5 == 0){
+                attackers.push(new Attacker(new FastAttacker()));
+            }
+            if(i % 10 == 0){
+                attackers.push(new Attacker(new HeavyAttacker()));
+            }
+            if(i % 25 == 0){
+                attackers.push(new Attacker(new Boss()));
+            }
         }
         return attackers;
     }
