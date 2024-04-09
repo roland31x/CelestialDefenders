@@ -33,7 +33,7 @@ export class Projectile {
                 break;
             }
 
-            await new Promise(r => setTimeout(r, 1));
+            await new Promise(r => setTimeout(r, 17));
         }
     }
 

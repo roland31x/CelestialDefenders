@@ -60,7 +60,7 @@ export class Attacker{
                 random = Math.floor(Math.random() * nextpath.length);
                 this.MoveToward(nextpath[random].x, nextpath[random].y);
             }
-            await new Promise(r => setTimeout(r, 1));
+            await new Promise(r => setTimeout(r, 17));
         }
     }
     public Move(){

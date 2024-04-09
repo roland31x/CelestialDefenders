@@ -12,6 +12,6 @@ export class BasicAttacker extends AttackerModel{
     public override image = "url(assets/attackers/basic.png)";
 
     public constructor(){
-        super(15, 0.11);
+        super(15, 0.16);
     }
 }
