@@ -10,13 +10,18 @@
     -ms-user-select: none;
 }
 
-
+.map-img{
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    
+}
 
 .halfviewbox{
     width: calc(((60vh + 60vw)) / 2);
     height: calc(((60vh + 60vw)) / 2);
 }
-
 
 .tile{
     background-color: transparent;

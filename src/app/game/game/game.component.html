@@ -1,9 +1,12 @@
+<img class="map-img halfviewbox" [src]="this.Background">
+
 <div class="gamemap halfviewbox" #gameMap (mouseenter)="MouseEnter()" (mouseleave)="MouseLeave()" (mousedown)="MouseDown()">
-    <ng-container *ngFor="let tileRow of mapTiles; let row = index">
+    <!--<ng-container *ngFor="let tileRow of mapTiles; let row = index">
         <div class="tile" [style.height]="GetTileHeight()" [style.width]="GetTileWidth()" *ngFor="let tile of tileRow; let col = index" [style.grid-column]="col + 1" [style.grid-row]="row + 1" [class.invalid]="tile == 1">
 
         </div>
     </ng-container>
+-->
 </div>
 
 <div class="defendermap halfviewbox">
@@ -17,9 +20,15 @@
 
 <div class="attackermap halfviewbox">
     <ng-container *ngFor="let attacker of attackers">
-        <div class="attacker-obj" *ngIf="attacker.spawned && attacker.alive" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad) scale(" + attacker.scale + ")" ' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
+        <div class="attacker-obj" [style.z-index]="attacker.zindex" *ngIf="attacker.spawned && attacker.alive" [ngClass]="attacker.cssEffects" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad) scale(" + attacker.scale + ")" ' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
             <div class="full-size attacker-img" [style.background-image]="attacker.image"></div>
         </div>
+    </ng-container>
+</div>
+
+<div class="aoemap halfviewbox">
+    <ng-container *ngFor="let aoe of AOES">
+        <div class="aoe-obj" [ngClass]="aoe.class" [style.width]='(aoe.radius * 2) + "%"' [style.height]='(aoe.radius * 2) + "%"' [style.top]='aoe.position.y + "%"' [style.left]='aoe.position.x + "%"'></div>
     </ng-container>
 </div>
 

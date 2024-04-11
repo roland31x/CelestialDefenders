@@ -4,8 +4,8 @@ import { Level1 } from './classes/levels/level1';
 import { Level2 } from './classes/levels/level2';
 import { Level3 } from './classes/levels/level3';
 import { DefenderModel } from './classes/defenders/defender';
-import { ArcherModel } from './classes/defenders/archer';
-import { MageModel } from './classes/defenders/mage';
+import { ArcherModel } from './classes/defenders/models/archer';
+import { MageModel } from './classes/defenders/models/mage';
 
 
 @Injectable({
@@ -26,7 +26,7 @@ export class EngineService {
 
   private StatMapValues: Map<string, { min: number, max: number }> = new Map([
     ["Damage", { min: 1, max: 25 }],
-    ["Range", { min: 1, max: 10 }],
+    ["Range", { min: 4, max: 25 }],
     ["AttackSpeed", { min: 0.25, max: 2 }]
   ]);
 

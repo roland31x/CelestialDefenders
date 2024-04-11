@@ -19,3 +19,38 @@
     top: 0;
     left: 0;
 }
+
+.aoemap{
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.aoe-obj{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    border-radius: 100%;
+}
+
+.Explosion{
+    background-color: #ff000048;
+}
+
+.Fireplosion{
+    background-color: #e1ff0048;
+}
+
+.Frostplosion{
+    background-color: #00ffff48;
+}
+
+.Magicplosion{
+    background-color: #ff00ff48;
+}
+
+.Acidplosion{
+    background-color: #00ff0048;
+}

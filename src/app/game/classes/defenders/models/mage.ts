@@ -1,13 +1,13 @@
-import { Attacker } from "../attackers/attacker";
-import { Projectile } from "../projectiles/projectile";
-import { MagicBall } from "../projectiles/projectile-model";
-import { DefenderModel } from "./defender";
-import { ExtraAttackSpeed, ExtraDamage, ExtraRange } from "./defender-upgrades";
+import { Attacker } from "../../attackers/attacker";
+import { Projectile } from "../../projectiles/projectile";
+import { Bomb, MagicBall } from "../../projectiles/projectile-models";
+import { DefenderModel } from "../defender";
+import { ExtraAttackSpeed, ExtraDamage, ExtraRange } from "../defender-upgrades";
 
 export class MageModel extends DefenderModel{
     public override image = "url(assets/defenders/mage.png)";
     public constructor(){
-        super(10, 8, 400, 0.75, "Mage");
+        super(10, 18, 400, 0.75, "Mage");
         this.availableUpgrades = [new ExtraDamage(), new ExtraRange(), new ExtraAttackSpeed()];
         
         this.description = "Fires homing magic missiles towards enemies. Especially effective against fast moving enemies.";
@@ -29,10 +29,8 @@ export class MageModel extends DefenderModel{
 
         let target = farthest_path;
 
-        let arrow = new MagicBall(this.damage);
-
-        let fired_arrow = new Projectile(target, arrow);
-        projectiles.push(fired_arrow);
+        let fired_ball = new MagicBall(target, this.damage);
+        projectiles.push(fired_ball);
 
         return projectiles;
     }

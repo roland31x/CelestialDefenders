@@ -1,35 +1,51 @@
-import { AttackerModel } from "./attacker-model";
+import { Subject } from "rxjs";
+import { StatModifier } from "./stat-modifier";
+import { HitEffect } from "../projectiles/effects/effect-enums";
+import { Effect } from "../projectiles/effects/effect-base";
 
-export class Attacker{
+export abstract class Attacker{
     public x: number = 0;
     public y: number = 0;
     public spawned: boolean = false;
     public alive: boolean = false;
-    public readonly model : AttackerModel;
     public angle: number = 0;
+    public _currenthealth: number = 9999;
+
+    public death: Subject<void> = new Subject<void>();
+
+    public readonly maxhealth: number;
+    public readonly base_speed: number;
+    public get speed(){
+        let speed = this.base_speed;
+        for(let mod of this.statModifiers){
+            speed *= (100 - mod.speed_mod) / 100;
+        }
+        return speed;
+    }
+    public abstract readonly image: string;
+    public readonly scale: number = 1;
+    public readonly zindex: number = 10;
+
+    public readonly statModifiers: StatModifier[] = [];
+
+    public readonly CurrentEffects: string[] = [];
+    public get cssEffects(){
+        return this.CurrentEffects.join(" ");
+    }
 
     public get hitboxRadius(){
         return 2.33 * this.scale;
     }
 
-    public _currenthealth: number = 9999;
-
-    public get scale(){
-        return this.model.sizeScale;
-    }
-    public get image(){
-        return this.model.image;
-    }
     public get health(){
         return this._currenthealth;
     }
     public set health(value: number){
         this._currenthealth = value;
-    }
-
-
-    public get speed(){
-        return this.model.speed;
+        if(this._currenthealth <= 0){
+            this.alive = false;
+            this.death.next();
+        }
     }
 
     private _pathidx: number = -1;
@@ -37,9 +53,10 @@ export class Attacker{
         return this._pathidx;
     }
 
-    public constructor(model: AttackerModel){
-        this.model = model;
-        this._currenthealth = model.health;
+    public constructor(health: number, speed: number){
+        this.base_speed = speed;
+        this.maxhealth = health;
+        this._currenthealth = health;
     }
 
     public MoveToward(x: number, y: number){
@@ -75,6 +92,54 @@ export class Attacker{
     public Move(){
         this.x += (this.speed) * Math.cos(this.angle);
         this.y += (this.speed) * Math.sin(this.angle);
+    }
+
+    public TakeHit(effect : Effect){
+        switch(effect.effect){
+            case HitEffect.Damage:
+                this.health -= effect.amount;
+                this.CurrentEffects.push("Hit");
+                setTimeout(() => {
+                    this.CurrentEffects.splice(this.CurrentEffects.indexOf("Hit"), 1);
+                }, 100);     
+                break;
+            case HitEffect.Slow:
+                let add = new StatModifier(effect.amount);
+                this.statModifiers.push(add);
+                this.CurrentEffects.push("Slowed");
+                setTimeout(() => {
+                    this.statModifiers.splice(this.statModifiers.indexOf(add), 1);
+                    this.CurrentEffects.splice(this.CurrentEffects.indexOf("Slowed"), 1);
+                }, effect.duration);
+
+                break;
+            case HitEffect.DamageOverTime:
+
+                let interval = setInterval(() => {
+                    this.health -= effect.amount;
+                    this.CurrentEffects.push("Hit");
+                    setTimeout(() => {
+                        this.CurrentEffects.splice(this.CurrentEffects.indexOf("Hit"), 1);
+                    }, effect.tickrate / 2);
+                }, effect.tickrate);
+
+                setTimeout(() => {
+                    clearInterval(interval);
+                }, effect.duration);
+
+                break;
+            case HitEffect.Freeze:
+                let add2 = new StatModifier(100);
+                this.statModifiers.push(add2);
+                this.CurrentEffects.push("Frozen");
+
+                setTimeout(() => {
+                    this.statModifiers.splice(this.statModifiers.indexOf(add2), 1);
+                    this.CurrentEffects.splice(this.CurrentEffects.indexOf("Frozen"), 1);
+                }, effect.duration);
+
+                break;
+        }
     }
 
     public SetSpawnPoint(x: number, y: number){

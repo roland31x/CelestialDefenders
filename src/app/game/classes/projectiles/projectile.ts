@@ -1,24 +1,25 @@
 import { Attacker } from "../attackers/attacker";
-import { ProjectileModel } from "./projectile-model";
+import { FinalEffect } from "./effects/final-effect";
 
-export class Projectile {
+export abstract class Projectile {
     public x: number = 0;
     public y: number = 0;
     public target: {x: number, y: number} | Attacker;
-    public model: ProjectileModel;
     public angle: number = 0;
     public finished = false;
-    public get image(){
-        return this.model.image;
-    }
+
+    public readonly speed: number;
+    public readonly damage: number;
+    public readonly abstract image: string;
 
     public get hitboxRadius(){
         return 3;
     }
 
-    public constructor(target: {x: number, y: number} | Attacker, model: ProjectileModel){
+    constructor(target: {x: number, y: number} | Attacker, speed: number, damage: number){
         this.target = target;
-        this.model = model;
+        this.speed = speed;
+        this.damage = damage;
     }
 
     async Lifetime(){
@@ -27,8 +28,8 @@ export class Projectile {
             let dy = this.target.y - this.y;
             this.angle = Math.atan2(dy, dx);
 
-            this.x += (this.model.speed) * Math.cos(this.angle);
-            this.y += (this.model.speed) * Math.sin(this.angle);
+            this.x += (this.speed) * Math.cos(this.angle);
+            this.y += (this.speed) * Math.sin(this.angle);
             
             let dist = dx * dx + dy * dy;
             
@@ -41,6 +42,8 @@ export class Projectile {
             await new Promise(r => setTimeout(r, 17));
         }
     }
+
+    public abstract GetFinishEffect() : FinalEffect;
 
     SetSpawnPoint(x: number, y: number){
         this.x = x;

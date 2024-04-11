@@ -19,3 +19,11 @@
     top: 0;
     left: 0;
 }
+
+.Hit{
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+}
+
+.Frozen{
+    background-color: #00ffff48;
+}

@@ -1,17 +1,19 @@
 import { AfterViewInit, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { EngineService } from '../engine.service';
-import { NgFor, NgIf } from '@angular/common';
+import { NgClass, NgFor, NgIf } from '@angular/common';
 import { DefenderModel, Defender } from '../classes/defenders/defender';
 import { LevelModel } from '../classes/levels/level-model';
 import { DefenderUpgrade } from '../classes/defenders/defender-upgrades';
 import { Attacker } from '../classes/attackers/attacker';
 import { Projectile } from '../classes/projectiles/projectile';
 import { ActivatedRoute } from '@angular/router';
+import { DamageArea } from '../classes/projectiles/effects/effect-enums';
+import { FinalEffect } from '../classes/projectiles/effects/final-effect';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, NgClass],
   templateUrl: './game.component.html',
   styleUrls: [
     './game.component.scss',
@@ -24,6 +26,14 @@ import { ActivatedRoute } from '@angular/router';
 export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('gameMap') gameMap!: ElementRef<HTMLDivElement>;
+  private readonly gameVW = 60;
+  private readonly gameVH = 60;
+
+  public readonly AOES: { position: {x : number, y: number}, radius: number, class: string}[] = [];
+
+  get Background() : string{
+    return this._levelModel.background;
+  }
 
   get mapX() : number{
     return this.gameMap.nativeElement.getBoundingClientRect().left;
@@ -73,6 +83,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private _attackers : Attacker[] = [];
+  private _attackerSubs: any[] = [];
   get attackers(){
     return this._attackers;
   }
@@ -266,15 +277,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.defendersMap.delete(defender);
   }
 
-  KillAttacker(attacker: Attacker){
-    attacker.alive = false;
-    this.defendersMap.forEach((value) => {
-      if(value.includes(attacker)){
-        value.splice(value.indexOf(attacker), 1);
-      }
-    });
-  }
-
   UpgradeDefender(defender: Defender, upgrade: DefenderUpgrade){
     if(this.money < upgrade.cost){
       return;
@@ -284,31 +286,16 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   GetTileHeight() : string{
-    return `calc(((60vw + 60vh) / 2) / ${this._levelModel.Height})`;
+    return `calc(((${this.gameVW}vw + ${this.gameVH}vh) / 2) / ${this._levelModel.Height})`;
   }
 
   GetTileWidth() : string{
-    return `calc(((60vw + 60vh) / 2) / ${this._levelModel.Width})`;
+    return `calc(((${this.gameVW}vw + ${this.gameVH}vh) / 2) / ${this._levelModel.Width})`;
   }
 
   GetViewRangeRadius(range: number) : string {
-    let percentage = this.engine.GetRangePercent(range);
-    let viewpercentage = percentage / 100 * 25;
-    return `calc((${viewpercentage}vw + ${viewpercentage}vh) / 2)`;
-  }
-
-  GetRangeRadius(defender: Defender) : number {
-    let percentage = this.engine.GetRangePercent(defender.range);
-    let viewpercentage = percentage / 100 * 25;
-
-    let vh = window.visualViewport?.height;
-    let vw = window.visualViewport?.width;
-
-    let defw = (((viewpercentage / 100) * vh!) + ((viewpercentage / 100) * vw!)) / 2;
-
-    let pdefw = ((defw / 2) / this.mapHeight) * 100;
-
-    return pdefw;
+    let width = (range / 100) * this.gameVW * 2;
+    return `calc((${width}vw + ${width}vh) / 2)`;
   }
 
   gameStarted = false;
@@ -321,12 +308,22 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   private _spawninterval = 1;
   async spawnEnemies(){
 
-    while(this.attackers.some(att => !att.spawned)){
+    while(this.attackers.some(att => !att.spawned) && this.gameStarted){
 
       let attacker = this.attackers.find(att => !att.spawned)!;
       let sp = this._levelModel.GetRandomSpawnpoint();
       attacker.SetSpawnPoint(sp.x, sp.y);
       attacker.Lifetime(this._levelModel.Pathing);
+      
+      let deathsub = attacker.death.subscribe(() => {
+        this.defendersMap.forEach((targets) => {
+          if(targets.includes(attacker)){
+            targets.splice(targets.indexOf(attacker), 1);
+          }
+        });
+      });
+      this._attackerSubs.push(deathsub);
+
       this.hbcheck(attacker);
 
       await new Promise(r => setTimeout(r, this._spawninterval));
@@ -351,7 +348,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       let y = att.y;
   
       this.defenders.forEach(defender => {
-        let defradius = this.GetRangeRadius(defender);
+        let defradius = defender.range;
         let dist = (defender.x - x) * (defender.x - x) + (defender.y - y) * (defender.y - y);
         if(dist < (defradius + att.hitboxRadius) * (defradius + att.hitboxRadius)){
           if(!this.defendersMap.get(defender)!.includes(att)){
@@ -370,28 +367,69 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async projhbcheck(projectile: Projectile){
+
+    let effect = projectile.GetFinishEffect();
+
     while(!projectile.finished){
+
+      await new Promise(r => setTimeout(r, 10));
+
       this.attackers.forEach(attacker => {
-        if(!attacker.alive || !attacker.spawned){
+        if(!attacker.alive || !attacker.spawned || projectile.finished){
           return;
         }
         let x = attacker.x;
         let y = attacker.y;
         let dist = (projectile.x - x) * (projectile.x - x) + (projectile.y - y) * (projectile.y - y);
-        console.log(dist);
+
         if(dist + 16 < (projectile.hitboxRadius + attacker.hitboxRadius) * (projectile.hitboxRadius + attacker.hitboxRadius)){
-          attacker.health -= projectile.model.damage;
           projectile.finished = true;
-          console.log("hit");
-          if(attacker.health <= 0){
-            this.KillAttacker(attacker);
+          if(effect.area == DamageArea.Direct){
+            effect.effects.forEach(eff => {
+              attacker.TakeHit(eff);
+            });
           }
         }
       });
-
-      await new Promise(r => setTimeout(r, 10));
     }
+
+    if(effect.area == DamageArea.Direct){
+      return;
+    }
+
+  
+
+    this.showAOE(effect, {x: projectile.x, y: projectile.y});
+
+    this.attackers.forEach(attacker => {
+      if(!attacker.alive || !attacker.spawned){
+        return;
+      }
+      let x = attacker.x;
+      let y = attacker.y;
+      let dist = (projectile.x - x) * (projectile.x - x) + (projectile.y - y) * (projectile.y - y);
+      if(dist < (effect.radius + attacker.hitboxRadius) * (effect.radius + attacker.hitboxRadius)){
+        effect.effects.forEach(eff => {
+          attacker.TakeHit(eff);
+        });
+      }
+    });
     
+  }
+
+  async showAOE(aoe: FinalEffect, position: {x: number, y: number}){
+
+    let topush = {
+      position,
+      radius: aoe.radius,
+      class: aoe.effects[0].type.toString()
+    };
+
+    this.AOES.push(topush);
+
+    await new Promise(r => setTimeout(r, 300));
+
+    this.AOES.splice(this.AOES.indexOf(topush), 1);
   }
 
   async defenderFunc(defender: Defender){
@@ -408,7 +446,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
           this.projhbcheck(p);
           defender.angle = p.angle;
         });       
-        await new Promise(r => setTimeout(r, 1000 / defender.model.attack_speed));
+        await new Promise(r => setTimeout(r, 1000 / defender.attack_speed));
       }
       else{
         await new Promise(r => setTimeout(r, 25));
@@ -439,6 +477,10 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.attackers.forEach(attacker => {
       attacker.alive = false;
       attacker.spawned = false;
+    });
+
+    this._attackerSubs.forEach(sub => {
+      sub.unsubscribe();
     });
 
     this.projectiles.forEach(projectile => {
