@@ -151,7 +151,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     // needs to update since we are running stuff outside of angular zone
     this.cursorMapX = this.cursorMapX;
     this.cursorMapY = this.cursorMapY;
-    //
+    
     this.attackers.forEach(attacker => {
       if(attacker.spawned && attacker.alive){
         attacker.x = attacker.x;
@@ -163,6 +163,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       projectile.x = projectile.x;
       projectile.y = projectile.y;
     });
+
   }
 
   ngOnDestroy(){

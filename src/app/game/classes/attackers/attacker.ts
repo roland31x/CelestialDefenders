@@ -102,7 +102,7 @@ export abstract class Attacker{
         this.MoveToward(nextpath[random].x, nextpath[random].y);
         while(this.alive && !this._deathanimation){
             this.Move();
-            if(Math.abs(this.x - nextpath[random].x) < 4 && Math.abs(this.y - nextpath[random].y) < 4){
+            if(Math.abs(this.x - nextpath[random].x) < 6 && Math.abs(this.y - nextpath[random].y) < 6){
                 this._pathidx++;
                 if(this._pathidx >= paths.size + 1){
                     while(this.alive && Math.abs(this.x - nextpath[random].x) < 0.5 && Math.abs(this.y - nextpath[random].y) < 0.5){
