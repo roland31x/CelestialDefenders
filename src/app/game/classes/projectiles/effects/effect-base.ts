@@ -22,21 +22,9 @@ export abstract class Effect {
     }
 }
 
-export class PhysicalDamageEffect extends Effect {
-    constructor(amount: number) {
-        super(HitEffect.Damage, DamageType.Physical, amount);
-    }
-}
-
-export class BleedEffect extends Effect {
-    constructor(amount: number, duration: number, tickrate: number) {
-        super(HitEffect.DamageOverTime, DamageType.Physical, amount, duration, tickrate);
-    }
-}
-
 export class FreezeEffect extends Effect {
     constructor(duration: number) {
-        super(HitEffect.Freeze, DamageType.Magical, 0, duration);
+        super(HitEffect.Freeze, DamageType.Ice, 0, duration);
     }
 }
 
@@ -52,9 +40,16 @@ export class PoisonEffect extends Effect {
     }
 }
 
+export class CurseEffect extends Effect {
+    constructor(amount: number, duration: number, tickrate: number) {
+        super(HitEffect.DamageOverTime, DamageType.Curse, amount, duration, tickrate);
+    }
+
+}
+
 export class SlowEffect extends Effect {
     constructor(amount: number, duration: number) {
-        super(HitEffect.Slow, DamageType.Physical, amount, duration);
+        super(HitEffect.Slow, DamageType.Magical, amount, duration);
     }
 }
 

@@ -2,8 +2,6 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: calc(((3vw + 3vh) / 2));
-    height: calc(((3vw + 3vh) / 2));
     transform: translate(-50%, -50%);
     z-index: 1;
     border-radius: 100%;
@@ -32,25 +30,19 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1001;
-    border-radius: 100%;
+    transition: opacity 0.2s;
 }
 
-.Explosion{
-    background-color: #ff000048;
+.aoe-img{
+    background-size: cover; 
+    background-position: center;
+    opacity: 1; 
 }
 
-.Fireplosion{
-    background-color: #e1ff0048;
+.aoe-opacity-1{
+    opacity: 0.75;
 }
 
-.Frostplosion{
-    background-color: #00ffff48;
-}
-
-.Magicplosion{
-    background-color: #ff00ff48;
-}
-
-.Acidplosion{
-    background-color: #00ff0048;
+.aoe-opacity-0{
+    opacity: 0;
 }

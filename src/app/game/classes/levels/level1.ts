@@ -1,32 +1,92 @@
 import { Attacker } from "../attackers/attacker";
-import { BasicAttacker, Boss, FastAttacker, Guard, HeavyAttacker } from "../attackers/attacker-model";
+import { BasicAttacker, Boss, FastAttacker, Guard, HeavyAttacker } from "../attackers/desert-models";
+import { GoblinBasic, GoblinBoss, GoblinGuard, GoblinHeavy, GoblinLight } from "../attackers/goblin-models";
 import { LevelModel, Difficulty } from "./level-model";
+import { RoundMap, Spawn, SpawnMap } from "./spawn-map";
 
 export class Level1 extends LevelModel {
     public background: string = "assets/maps/level1.png";
     public override difficulty = Difficulty.EASY;
     public override name = "Green Hills";
     public override spawnInterval: number = 2500;
+
     constructor(){
         super();
         this.BuildHitboxMap();
     }
 
-    public override GetRandomAttackers(): Attacker[] {
-        let attackers: Attacker[] = [];
-        for(let i = 0; i < 50; i++){
-            attackers.push(new BasicAttacker());
-            if(i % 5 == 0){
-                attackers.push(new FastAttacker());
-            }
-            if(i % 10 == 0){
-                attackers.push(new HeavyAttacker());
-            }
-            if(i % 25 == 0){
-                attackers.push(new Boss());
-            }
+    public override GetSpawns(): SpawnMap {
+        let spawnMap = new SpawnMap();
+        for(let i = 1; i <= this.totalRounds; i++){
+            let roundmap = new RoundMap(this.GetRoundMinions(i));
+            spawnMap.spawns.set(i, roundmap);
         }
-        return attackers;
+        return spawnMap;
+    }
+
+    private BossSpawn(): Spawn[]{
+
+        let spawns : Spawn[] = [];
+
+        for(let i = 0; i < 2; i++){
+            let attacker = new GoblinGuard();
+            let delay = 50;
+            spawns.push(new Spawn(attacker, delay));
+        }
+
+        
+        let boss = new GoblinBoss();
+        let delay = 1000;
+        spawns.push(new Spawn(boss, delay));
+
+
+        for(let i = 0; i < 2; i++){
+            let attacker = new GoblinGuard();
+            let delay = 50;
+            spawns.push(new Spawn(attacker, delay));
+        }
+
+        return spawns;
+    }
+
+    private GetRoundMinions(round: number): Spawn[]{
+        let spawns : Spawn[] = [];
+
+        for(let i = 0; i <= 10 + Math.floor(round / 2); i++){
+            let random = Math.random() * 100;
+            let attacker: Attacker;
+            let delay: number;
+            
+            if(random < 50){
+                attacker = new GoblinBasic();
+                delay = 2000 + Math.random() * 1000;
+            }
+            else if(random >= 50 && random < 70){
+                attacker = new GoblinLight();
+                delay = 2000;
+            }
+            else if(random >= 70 && random < 90){
+                attacker = new GoblinHeavy();
+                delay = 2000 + Math.random() * 1500;
+            }
+            else{
+                for(let i = 0; i < 3; i++){
+                    attacker = new GoblinBasic();
+                    delay = 150;
+                    spawns.push(new Spawn(attacker, delay));
+                }
+                attacker = new GoblinBasic();
+                delay = 2000 + Math.random() * 1000;
+            }
+
+            spawns.push(new Spawn(attacker, delay));
+
+        }
+
+        let boss = this.BossSpawn();
+        boss.forEach(b => spawns.push(b));
+
+        return spawns; 
     }
 
     protected BuildHitboxMap(){

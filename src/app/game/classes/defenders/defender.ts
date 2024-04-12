@@ -20,7 +20,7 @@ export class Defender{
     }
 
     public GetProjectilesFiredAt(attackers: Attacker[]) {
-        return this.model.GetProjectilesFiredAt(attackers);
+        return this.model.GetProjectilesFiredAt(attackers, this._upgrades);
     }
 
     get damage() : number{
@@ -91,6 +91,6 @@ export abstract class DefenderModel{
         this.attack_speed = attack_speed;
     }
 
-    public abstract GetProjectilesFiredAt(attackers: Attacker[]) : Projectile[];
+    public abstract GetProjectilesFiredAt(attackers: Attacker[], upgrades: DefenderUpgrade[]) : Projectile[];
 }
 

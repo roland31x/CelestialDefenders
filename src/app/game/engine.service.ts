@@ -4,8 +4,14 @@ import { Level1 } from './classes/levels/level1';
 import { Level2 } from './classes/levels/level2';
 import { Level3 } from './classes/levels/level3';
 import { DefenderModel } from './classes/defenders/defender';
-import { ArcherModel } from './classes/defenders/models/archer';
-import { MageModel } from './classes/defenders/models/mage';
+import { ApprenticeModel } from './classes/defenders/models/apprentice';
+import { SpellcasterModel } from './classes/defenders/models/spellcaster';
+import { FreezerModel } from './classes/defenders/models/freezer';
+import { ArchmageModel } from './classes/defenders/models/archmage';
+import { WarlockModel } from './classes/defenders/models/warlock';
+import { HolySpiritModel } from './classes/defenders/models/holy-spirit';
+import { CurserModel } from './classes/defenders/models/curser';
+import { BinderModel } from './classes/defenders/models/binder';
 
 
 @Injectable({
@@ -20,14 +26,20 @@ export class EngineService {
   ];
 
   public DefenderModels: DefenderModel[] = [
-    new ArcherModel(),
-    new MageModel(),
+    new ApprenticeModel(),
+    new SpellcasterModel(),
+    new BinderModel(),
+    new FreezerModel(),
+    new WarlockModel(),
+    new CurserModel(),
+    new ArchmageModel(),
+    new HolySpiritModel(),
   ];
 
   private StatMapValues: Map<string, { min: number, max: number }> = new Map([
-    ["Damage", { min: 1, max: 25 }],
+    ["Damage", { min: 0, max: 50 }],
     ["Range", { min: 4, max: 25 }],
-    ["AttackSpeed", { min: 0.25, max: 2 }]
+    ["AttackSpeed", { min: 0.05, max: 2 }]
   ]);
 
   private GetPercent(value: number, min: number, max: number): number {

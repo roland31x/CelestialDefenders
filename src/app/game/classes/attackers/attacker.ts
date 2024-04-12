@@ -40,11 +40,17 @@ export abstract class Attacker{
     public get health(){
         return this._currenthealth;
     }
+
+    private _deathanimation = false;
     public set health(value: number){
+        if(this._deathanimation){
+            return;
+        }
         this._currenthealth = value;
         if(this._currenthealth <= 0){
-            this.alive = false;
-            this.death.next();
+            this._deathanimation = true;
+            this.CurrentEffects.push("Dying");
+            setTimeout(() => {this.alive = false; this.death.next();}, 250);
         }
     }
 
@@ -71,7 +77,7 @@ export abstract class Attacker{
         let nextpath = paths.get(this._pathidx)!;
         let random = Math.floor(Math.random() * nextpath.length);
         this.MoveToward(nextpath[random].x, nextpath[random].y);
-        while(this.alive){
+        while(this.alive && !this._deathanimation){
             this.Move();
             if(Math.abs(this.x - nextpath[random].x) < 4 && Math.abs(this.y - nextpath[random].y) < 4){
                 this._pathidx++;
@@ -95,6 +101,10 @@ export abstract class Attacker{
     }
 
     public TakeHit(effect : Effect){
+        if(this._deathanimation){
+            return;
+        }
+
         switch(effect.effect){
             case HitEffect.Damage:
                 this.health -= effect.amount;
@@ -120,7 +130,7 @@ export abstract class Attacker{
                     this.CurrentEffects.push("Hit");
                     setTimeout(() => {
                         this.CurrentEffects.splice(this.CurrentEffects.indexOf("Hit"), 1);
-                    }, effect.tickrate / 2);
+                    }, 100);
                 }, effect.tickrate);
 
                 setTimeout(() => {
@@ -132,7 +142,6 @@ export abstract class Attacker{
                 let add2 = new StatModifier(100);
                 this.statModifiers.push(add2);
                 this.CurrentEffects.push("Frozen");
-
                 setTimeout(() => {
                     this.statModifiers.splice(this.statModifiers.indexOf(add2), 1);
                     this.CurrentEffects.splice(this.CurrentEffects.indexOf("Frozen"), 1);

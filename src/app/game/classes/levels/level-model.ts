@@ -1,5 +1,6 @@
 import { Attacker } from "../attackers/attacker";
-import { HitboxMap } from "../hitboxmap";
+import { HitboxMap } from "./hitboxmap";
+import { SpawnMap } from "./spawn-map";
 
 export abstract class LevelModel{
     public hitboxmap: HitboxMap = new HitboxMap();
@@ -14,7 +15,7 @@ export abstract class LevelModel{
     protected EndPoints: {x: number, y: number}[] = [];
     public Pathing: Map<number, {x: number, y: number}[]> = new Map<number, {x: number, y: number}[]>();
     protected abstract BuildHitboxMap(): void;
-    public abstract GetRandomAttackers(): Attacker[];
+    public abstract GetSpawns(): SpawnMap;
 
     public GetRandomSpawnpoint(){
         return this.SpawnPoints[Math.floor(Math.random() * this.SpawnPoints.length)];

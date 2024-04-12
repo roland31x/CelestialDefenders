@@ -11,9 +11,9 @@ export enum DamageArea{
 }
 
 export enum DamageType{
-    Physical = "Explosion",
-    Magical = "Magicplosion",
-    Fire = "Fireplosion",
-    Ice = "Frostplosion",
-    Poison = "Acidplosion",
+    Magical = "url(assets/explosions/blue.png)",
+    Fire = "url(assets/explosions/fire.png)",
+    Ice = "url(assets/explosions/ice.png)",
+    Poison = "url(assets/explosions/green.png)",
+    Curse = "url(assets/explosions/purple.png)",
 }

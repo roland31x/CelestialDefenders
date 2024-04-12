@@ -28,13 +28,15 @@
 
 <div class="aoemap halfviewbox">
     <ng-container *ngFor="let aoe of AOES">
-        <div class="aoe-obj" [ngClass]="aoe.class" [style.width]='(aoe.radius * 2) + "%"' [style.height]='(aoe.radius * 2) + "%"' [style.top]='aoe.position.y + "%"' [style.left]='aoe.position.x + "%"'></div>
+        <div class="aoe-obj" [ngClass]="aoe.anim" [style.width]='(aoe.radius * 2) + "%"' [style.height]='(aoe.radius * 2) + "%"' [style.top]='aoe.position.y + "%"' [style.left]='aoe.position.x + "%"'>
+            <div class="full-size aoe-img" [style.background-image]="aoe.explosion"></div>
+        </div>
     </ng-container>
 </div>
 
 <div class="projectilemap halfviewbox">
     <ng-container *ngFor="let projectile of projectiles">
-        <div *ngIf="!projectile.finished" class="projectile-obj" [style.transform]='"translate(-50%,-50%) rotate(" + projectile.angle + "rad)"' [style.top]="projectile.y + '%'" [style.left]="projectile.x + '%'">
+        <div *ngIf="!projectile.finished" class="projectile-obj" [style.width]='(projectile.hitboxRadius * 2) + "%"' [style.height]='(projectile.hitboxRadius * 2) + "%"' [style.transform]='"translate(-50%,-50%) rotate(" + projectile.angle + "rad)"' [style.top]="projectile.y + '%'" [style.left]="projectile.x + '%'">
             <div class="full-size projectile-img" [style.background-image]="projectile.image"></div>
         </div>
     </ng-container>

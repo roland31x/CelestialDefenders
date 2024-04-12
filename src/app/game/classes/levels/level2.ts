@@ -1,5 +1,6 @@
 import { Attacker } from "../attackers/attacker";
 import { LevelModel, Difficulty } from "./level-model";
+import { SpawnMap } from "./spawn-map";
 
 export class Level2 extends LevelModel {
     public background: string = "assets/level2.png";
@@ -11,8 +12,8 @@ export class Level2 extends LevelModel {
         this.BuildHitboxMap();
     }
 
-    public override GetRandomAttackers(): Attacker[] {
-        return [];
+    public override GetSpawns(): SpawnMap {
+        return new SpawnMap();
     }
 
     protected BuildHitboxMap(){
