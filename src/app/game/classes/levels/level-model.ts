@@ -8,7 +8,7 @@ export abstract class LevelModel{
     public abstract readonly difficulty : Difficulty;
     public abstract readonly name : string;
     public totalRounds: number = 15;
-    public abstract spawnInterval: number;
+    
     public get Width() { return this.hitboxmap.hitboxes[0].length; }
     public get Height() { return this.hitboxmap.hitboxes.length; }
     protected SpawnPoints: {x: number, y: number}[] = [];

@@ -29,7 +29,7 @@ export class BinderModel extends DefenderModel {
 
         let target = farthest_path;
 
-        let actual_duration = 1.25;
+        let actual_duration = 1250;
         upgrades.forEach(upgrade => {
             actual_duration += upgrade.duration_mod;
         });

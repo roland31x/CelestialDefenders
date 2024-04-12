@@ -112,8 +112,7 @@ export class AOEStunBall extends ProjectileModel{
     public override GetFinishEffect(): FinalEffect {
 
         let effects = [
-            new MagicDamageEffect(0),
-            new FreezeEffect(this._stunduration)
+            new SlowEffect(100, this._stunduration)
         ];
 
         return new FinalEffect(DamageArea.AreaOfEffect, this._range, effects);

@@ -1,6 +1,6 @@
 import { Subject } from "rxjs";
 import { StatModifier } from "./stat-modifier";
-import { HitEffect } from "../projectiles/effects/effect-enums";
+import { HitEffect, GetHitEffectString } from "../projectiles/effects/effect-enums";
 import { Effect } from "../projectiles/effects/effect-base";
 
 export abstract class Attacker{
@@ -150,9 +150,10 @@ export abstract class Attacker{
 
                 let interval = setInterval(() => {
                     this.health -= effect.amount;
-                    this.CurrentEffects.push("Hit");
+                    let hittype = GetHitEffectString(effect);
+                    this.CurrentEffects.push(hittype);
                     setTimeout(() => {
-                        this.CurrentEffects.splice(this.CurrentEffects.indexOf("Hit"), 1);
+                        this.CurrentEffects.splice(this.CurrentEffects.indexOf(hittype), 1);
                     }, 100);
                 }, effect.tickrate);
 
@@ -179,4 +180,5 @@ export abstract class Attacker{
         this.y = y;
         this.spawned = true;
     }
+    
 }

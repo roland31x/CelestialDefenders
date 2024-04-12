@@ -1,5 +1,4 @@
 import { Attacker } from "../attackers/attacker";
-import { BasicAttacker, Boss, FastAttacker, Guard, HeavyAttacker } from "../attackers/desert-models";
 import { GoblinBasic, GoblinBoss, GoblinGuard, GoblinHeavy, GoblinLight } from "../attackers/goblin-models";
 import { LevelModel, Difficulty } from "./level-model";
 import { RoundMap, Spawn, SpawnMap } from "./spawn-map";
@@ -8,7 +7,6 @@ export class Level1 extends LevelModel {
     public background: string = "assets/maps/level1.png";
     public override difficulty = Difficulty.EASY;
     public override name = "Green Hills";
-    public override spawnInterval: number = 2500;
 
     constructor(){
         super();

@@ -13,6 +13,16 @@
     background-size: cover; 
     background-position: center; 
 }
+.attacker-mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    mask-image: none;
+    mask-size: cover;
+    mask-position: center;
+}
 
 .attackermap{
     position: absolute;
@@ -35,29 +45,34 @@
 }
 
 .Hit{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+    background-color: #ffffff;
 }
 
 .Frozen{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+    background-color: #00b7ffbb;
 }
 
 .Stunned{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+    background-color: #e064ff74;
+}
+
+.Slowed{
+    background-color: #8f48a5ad;
+
 }
 
 .OnFire{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+    background-color: #ff7b0087;
 }
 
 .Poisoned{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(90deg) brightness(100%) contrast(100%) !important;
+    background-color: #09ff00bb;
 }
 
 .Cursed{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+    background-color: #7700ffbb;
 }
 
 .Dying{
-    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
+    background-color: #ff0000bb;
 }

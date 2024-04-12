@@ -20,8 +20,9 @@
 
 <div class="attackermap halfviewbox">
     <ng-container *ngFor="let attacker of attackers">
-        <div class="attacker-obj" [style.z-index]="attacker.zindex" *ngIf="attacker.spawned && attacker.alive" [ngClass]="attacker.cssEffects" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad) scale(" + attacker.scale + ")" ' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
+        <div class="attacker-obj" [style.z-index]="attacker.zindex" *ngIf="attacker.spawned && attacker.alive" [style.transform]='"translate(-50%,-50%) rotate(" + attacker.angle + "rad) scale(" + attacker.scale + ")" ' [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'">
             <div class="full-size attacker-img" [style.background-image]="attacker.image"></div>
+            <div class="full-size attacker-mask" [ngClass]="attacker.cssEffects" [style.mask-image]="attacker.image"></div>
         </div>
         <div class="hp-container" *ngIf="attacker.spawned && attacker.health > 0 && attacker.hpPercent < 100" [style.width]="(3 * attacker.hitboxRadius) + '%'" [style.height]="(3 * attacker.hitboxRadius) + '%'" [style.top]="attacker.y + '%'" [style.left]="attacker.x + '%'" [style.transform]='"translate(-50%, -50%)"'>
             <div class="attacker-hpbar" [style.width]="'100%'"></div>
