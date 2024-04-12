@@ -9,7 +9,7 @@ export abstract class Attacker{
     public spawned: boolean = false;
     public alive: boolean = false;
     public angle: number = 0;
-    public _currenthealth: number = 9999;
+    protected _currenthealth: number = 9999;
 
     public death: Subject<void> = new Subject<void>();
 
@@ -37,8 +37,27 @@ export abstract class Attacker{
         return 2.33 * this.scale;
     }
 
-    public get health(){
-        return this._currenthealth;
+    public get hpPercent(){
+        let ret = this._currenthealth / this.maxhealth * 100;
+        if(ret < 0){
+            return 0;
+        }
+        return ret;
+    }
+
+    public get hpColor() : string{
+        if(this.hpPercent > 75){
+            return "green";
+        }
+        else if(this.hpPercent > 50){
+            return "yellow";
+        }
+        else if(this.hpPercent > 25){
+            return "orange";
+        }
+        else{
+            return "red";
+        }
     }
 
     private _deathanimation = false;
@@ -52,6 +71,10 @@ export abstract class Attacker{
             this.CurrentEffects.push("Dying");
             setTimeout(() => {this.alive = false; this.death.next();}, 250);
         }
+    }
+    
+    public get health(){
+        return this._currenthealth;
     }
 
     private _pathidx: number = -1;

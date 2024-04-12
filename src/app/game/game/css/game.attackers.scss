@@ -20,6 +20,20 @@
     left: 0;
 }
 
+.hp-container{
+    position: absolute;
+    z-index: 900;
+}
+
+.attacker-hpbar{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 5%;
+    transform: translateY(-100%);
+    background-color: #000;
+}
+
 .Hit{
     filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%) !important;
 }
