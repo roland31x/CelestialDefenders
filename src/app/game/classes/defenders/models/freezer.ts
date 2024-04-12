@@ -2,14 +2,14 @@ import { Attacker } from "../../attackers/attacker";
 import { Projectile } from "../../projectiles/projectile";
 import { FreezeBall } from "../../projectiles/projectile-models";
 import { DefenderModel } from "../defender";
-import { DefenderUpgrade, ExtraAttackSpeed, ExtraDamage, ExtraRange } from "../defender-upgrades";
+import { DefenderUpgrade, ExtraAttackSpeed, ExtraDamage, ExtraDuration, ExtraRange } from "../defender-upgrades";
 
 export class FreezerModel extends DefenderModel {
     public override readonly image = "url(assets/defenders/freezer.png)";
 
     public constructor(){
         super(0, 20, 150, 0.25, "Freezer");
-        this.availableUpgrades = [new ExtraRange(3, 150), new ExtraAttackSpeed(0.25, 300), ];
+        this.availableUpgrades = [new ExtraRange(3, 150), new ExtraAttackSpeed(0.25, 300), new ExtraDuration(1000, 500) ];
         this.description = "A skilled mage that casts a homing magic missile towards enemies and freezes them for 2 seconds. Targets the fastest enemy.";
     }
 
@@ -29,7 +29,7 @@ export class FreezerModel extends DefenderModel {
 
         let target = fastest;
 
-        let actual_duration = 2;
+        let actual_duration = 2000;
         upgrades.forEach(upgrade => {
             actual_duration += upgrade.duration_mod;
         });
