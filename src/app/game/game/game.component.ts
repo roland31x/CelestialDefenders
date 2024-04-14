@@ -363,8 +363,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
       current += 1;
 
-      console.log(attacker);
-
       await new Promise(r => setTimeout(r, delay));
     }
 
