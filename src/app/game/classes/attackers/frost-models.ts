@@ -24,7 +24,7 @@ export class FrostHeavy extends Attacker{
     public override readonly zindex = 20;
     public constructor(){
         super(125, 0.11);
-        let random = Math.floor(Math.random() * 3) + 1;
+        let random = Math.floor(Math.random() * 2) + 1;
         this.image = `url(assets/attackers/frost/heavy-${random}.png)`
     }
 }
@@ -35,7 +35,7 @@ export class FrostBoss extends Attacker{
     public override readonly zindex = 25;
     public constructor(){
         super(500, 0.05);
-        let random = Math.floor(Math.random() * 3) + 1;
+        let random = Math.floor(Math.random() * 2) + 1;
         this.image = `url(assets/attackers/frost/boss-${random}.png)`
     }
 }

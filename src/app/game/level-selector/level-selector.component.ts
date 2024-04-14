@@ -1,23 +1,38 @@
-import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { EngineService } from '../engine.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-level-selector',
   standalone: true,
-  imports: [NgFor, NgIf, RouterLink],
+  imports: [NgFor, NgIf, RouterLink, NgClass],
   templateUrl: './level-selector.component.html',
   styleUrl: './level-selector.component.scss'
 })
-export class LevelSelectorComponent {
+export class LevelSelectorComponent implements OnDestroy {
   
+    private _changesub: any;
+
     constructor(
-      private engine: EngineService
-    ) { }
+      private engine: EngineService,
+      private changeDetector: ChangeDetectorRef
+    ) {
+      this._changesub = this.engine.LevelChanged.subscribe(() => {
+        this.changeDetector.detectChanges();
+      });
+    }
+
+    ngOnDestroy(){
+      this._changesub.unsubscribe();
+    }
 
     get levels(){
       return this.engine.Levels;
+    }
+
+    get Theme(){
+      return this.engine.Theme;
     }
 
     GetDifficultyColor(difficulty: number){

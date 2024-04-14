@@ -16,7 +16,6 @@
 .stat-bar-fill{
     position: absolute; 
     height: calc((1vh + 1vw) / 2); 
-    background-color: #689b6a;
 }
 
 .invalid{
@@ -25,13 +24,10 @@
 
 .upgrade{
     box-sizing: border-box;
-    background-color: #79bb76;
-    border-radius: 5px;
     padding: calc((1vh + 1vw) / 2);
 }
 
 .upgrade:hover{
-    background-color: #72a02d;
     cursor: pointer;
 }
 

@@ -1,13 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
 :root{
-    --main-color-dark: #2b4729;
-    --main-color-light: #6dc16d;
+    --green-dark: #2b4729;
+    --green-light: #b2f88f;
+    --green-lighter: #a3e6a3;
+    --green-accent: #66a16a;
+
+
+    --desert-dark: #bb8f3e;
+    --desert-light: #e6cc92;
+    --desert-lighter: #ffeda3;
+    --desert-accent: #b48d53;
+
+    --frost-dark: #3a616e;
+    --frost-light: #b3e3ff;
+    --frost-lighter: #d7f3ff;
+    --frost-accent: #5390bb;
+
     --main-font: 'Roboto', sans-serif;
+}
+
+.green-dark-bg{
+    background-color: var(--green-dark);
+}
+.desert-dark-bg{
+    background-color: var(--desert-dark);
+}
+.frost-dark-bg{
+    background-color: var(--frost-dark);
+}
+
+.green-light-bg{
+    background-color: var(--green-light);
+}
+.desert-light-bg{
+    background-color: var(--desert-light);
+}
+.frost-light-bg{
+    background-color: var(--frost-light);
+}
+
+.green-lighter-bg{
+    background-color: var(--green-lighter);
+}
+.desert-lighter-bg{
+    background-color: var(--desert-lighter);
+}
+.frost-lighter-bg{
+    background-color: var(--frost-lighter);
+}
+
+.green-accent-bg{
+    background-color: var(--green-accent);
+}
+.desert-accent-bg{
+    background-color: var(--desert-accent);
+}
+.frost-accent-bg{
+    background-color: var(--frost-accent);
+}
+
+.green-accent-hover{
+    background-color: var(--green-accent);
+}
+.desert-accent-hover{
+    background-color: var(--desert-accent);
+}
+.frost-accent-hover{
+    background-color: var(--frost-accent);
+}
+
+.green-accent-hover:hover{
+    background-color: var(--green-lighter);
+}
+.desert-accent-hover:hover{
+    background-color: var(--desert-lighter);
+}
+.frost-accent-hover:hover{
+    background-color: var(--frost-lighter);
 }
 
 .main-body{
     margin: 0;
-    background-color: var(--main-color-dark);
     font-family: var(--main-font);
 }
 
@@ -68,6 +141,14 @@
 
 }
 
+.bold{
+    font-weight: bold;
+}
+
+.h1{
+    font-size: calc((3.84vh + 3.84vw) / 2);
+}
+
 .h2{
     font-size: calc((2.88vh + 2.88vw) / 2);
 }
@@ -78,6 +159,10 @@
 
 .h4{
     font-size: calc((1.44vh + 1.44vw) / 2);
+}
+
+.h5{
+    font-size: calc((1.2vh + 1.2vw) / 2);
 }
 
 .white{
@@ -91,10 +176,10 @@
 .play-button {
     background-color: #ff4081;
     border: none;
-    border-radius: 5px;
+    border-radius: calc((0.5vh + 0.5vw) / 2);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: calc((1vh + 1vw) / 2) calc((2vh + 2vw) / 2);
+    font-size: calc((1.25vh + 1.25vw) / 2);
     color: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -102,6 +187,10 @@
     &:hover {
         background-color: #ff6699;
     }
+}
+
+.margin-top-small{
+    margin-top: calc((1vh + 1vw) / 2);
 }
 
 .margins-big{

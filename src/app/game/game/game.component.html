@@ -58,14 +58,14 @@
     <div class="range" [class.unplacable]="!canPlaceDefender()" [style.width]="GetViewRangeRadius(selectedDefenderModel.range)" [style.height]="GetViewRangeRadius(selectedDefenderModel.range)"></div>
 </div>
 
-<div class="side-menu flex flex-column flex-center">
-    <div class="h3">ROUND {{currentRound}} / {{totalRounds}}</div>
+<div class="side-menu flex flex-column flex-center" [ngClass]="this.Theme + '-light-bg'">
+    <div class="h3 bold">ROUND {{currentRound}} / {{totalRounds}}</div>
     <div class="h4">Money: {{money}}$</div>
     <div class="h4">Lives: {{base_hp}}</div>
-    <div class="sub-title" style="margin-top: 5px;">Defenders</div>
+    <div class="sub-title margin-top-small">Defenders</div>
     <div class="full-width">
         <div class="flex flex-row flex-center defenders">
-            <div class="defender" *ngFor="let defender of defenderModels" [class.selected]="selectedDefenderModel == defender" (click)="SelectDefenderModel(defender)">
+            <div class="defender" [ngClass]="this.Theme + '-dark-bg'" *ngFor="let defender of defenderModels" [class.selected]="selectedDefenderModel == defender" (click)="SelectDefenderModel(defender)">
                 <div class="full-size defender-img" [style.background-image]="defender.image"></div>
             </div>
         </div>
@@ -73,7 +73,7 @@
     <div class="full-size" *ngIf="!selectedDefender && !selectedDefenderModel"></div>
     <div class="full-size" *ngIf="selectedDefenderModel">
         <div class="flex flex-center flex-column">
-            <div class="h2">{{selectedDefenderModel.name}}</div>
+            <div class="h2 bold">{{selectedDefenderModel.name}}</div>
             <div class="h3">{{selectedDefenderModel.cost}}$</div>
             <div class="h4 defender-desc">{{selectedDefenderModel.description}}</div>   
         </div>
@@ -82,27 +82,27 @@
                 Damage
             </div>
             <div class="stat-bar" [style.grid-column]="2" [style.grid-row]="1">
-                <div class="stat-bar-fill" [style.width.%]="getDamagePercent(selectedDefenderModel.damage)"></div>
+                <div class="stat-bar-fill" [ngClass]="this.Theme + '-accent-bg'" [style.width.%]="getDamagePercent(selectedDefenderModel.damage)"></div>
             </div>
 
             <div class="text-end margin-right-1vw" [style.grid-column]="1" [style.grid-row]="2">
                 Range
             </div>
             <div class="stat-bar" [style.grid-column]="2" [style.grid-row]="2">
-                <div class="stat-bar-fill" [style.width.%]="getRangePercent(selectedDefenderModel.range)"></div>
+                <div class="stat-bar-fill" [ngClass]="this.Theme + '-accent-bg'" [style.width.%]="getRangePercent(selectedDefenderModel.range)"></div>
             </div>
 
             <div class="text-end margin-right-1vw" [style.grid-column]="1" [style.grid-row]="3">
                 Attack Speed
             </div>
             <div class="stat-bar" [style.grid-column]="2" [style.grid-row]="3">
-                <div class="stat-bar-fill" [style.width.%]="getAttackSpeedPercent(selectedDefenderModel.attack_speed)"></div>
+                <div class="stat-bar-fill" [ngClass]="this.Theme + '-accent-bg'" [style.width.%]="getAttackSpeedPercent(selectedDefenderModel.attack_speed)"></div>
             </div>
         </div>   
     </div>
     <div class="full-size flex flex-center flex-column" [style.align-itmes]='"flex-start"' *ngIf="selectedDefender">
         <div class="flex flex-center flex-column">
-            <div class="h2">{{selectedDefender.name}}</div>
+            <div class="h2 bold">{{selectedDefender.name}}</div>
         </div>
         <div class="stats-container h4 grid">
            
@@ -110,21 +110,21 @@
                 Damage
             </div>
             <div class="stat-bar" [style.grid-column]="2" [style.grid-row]="1">
-                <div class="stat-bar-fill" [style.width.%]="getDamagePercent(selectedDefender.damage)"></div>
+                <div class="stat-bar-fill" [ngClass]="this.Theme + '-accent-bg'" [style.width.%]="getDamagePercent(selectedDefender.damage)"></div>
             </div>
 
             <div class="text-end margin-right-1vw" [style.grid-column]="1" [style.grid-row]="2">
                 Range
             </div>
             <div class="stat-bar" [style.grid-column]="2" [style.grid-row]="2">
-                <div class="stat-bar-fill" [style.width.%]="getRangePercent(selectedDefender.range)"></div>
+                <div class="stat-bar-fill" [ngClass]="this.Theme + '-accent-bg'" [style.width.%]="getRangePercent(selectedDefender.range)"></div>
             </div>
 
             <div class="text-end margin-right-1vw" [style.grid-column]="1" [style.grid-row]="3">
                 Attack Speed
             </div>
             <div class="stat-bar" [style.grid-column]="2" [style.grid-row]="3">
-                <div class="stat-bar-fill" [style.width.%]="getAttackSpeedPercent(selectedDefender.attack_speed)"></div>
+                <div class="stat-bar-fill" [ngClass]="this.Theme + '-accent-bg'" [style.width.%]="getAttackSpeedPercent(selectedDefender.attack_speed)"></div>
             </div>
         </div>  
         <div class="sub-title" *ngIf="!selectedDefender.FullyUpgraded()"> Upgrades</div>
@@ -132,7 +132,7 @@
             Fully upgraded!
         </div>
         <div class="flex flex-center flex-column full-size">
-            <div *ngFor="let upgrade of selectedDefender.availableUpgrades" class="upgrade flex flex-center flex-row flex-justify-space-between full-width" [class.no-money]="money < upgrade.cost" (click)="UpgradeDefender(selectedDefender, upgrade)">
+            <div *ngFor="let upgrade of selectedDefender.availableUpgrades" [ngClass]="this.Theme + '-accent-hover'" class="upgrade flex flex-center flex-row flex-justify-space-between full-width" [class.no-money]="money < upgrade.cost" (click)="UpgradeDefender(selectedDefender, upgrade)">
                 <div class="h4">{{upgrade.name}}</div>
                 <div class="h4">{{upgrade.cost}}$</div>
             </div>
@@ -142,10 +142,10 @@
             Sell for {{selectedDefender.SellValue()}}$
         </div>
     </div>
-    <div class="play-button flex flex-center margins-big" (click)="start()" *ngIf="!gameStarted && !resetting">
+    <div class="play-button flex flex-center margins-big" (click)="start()" *ngIf="!gameStarted && !resetting && !gameFinished">
         Start
     </div>
-    <div class="play-button flex flex-center margins-big" (click)="reset()" *ngIf="gameStarted">
+    <div class="play-button flex flex-center margins-big" (click)="reset()" *ngIf="gameStarted || gameFinished">
         Reset Level
     </div>
    

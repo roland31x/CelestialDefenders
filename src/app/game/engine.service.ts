@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable } from '@angular/core';
 import { LevelModel } from './classes/levels/level-model';
 import { Level1 } from './classes/levels/level1';
 import { Level2 } from './classes/levels/level2';
@@ -12,6 +12,7 @@ import { WarlockModel } from './classes/defenders/models/warlock';
 import { HolySpiritModel } from './classes/defenders/models/holy-spirit';
 import { CurserModel } from './classes/defenders/models/curser';
 import { BinderModel } from './classes/defenders/models/binder';
+import { Subject } from 'rxjs';
 
 
 @Injectable({
@@ -24,6 +25,8 @@ export class EngineService {
     new Level2(),
     new Level3()
   ];
+
+  public selectedLevel: LevelModel = this.Levels[0];
 
   public DefenderModels: DefenderModel[] = [
     new ApprenticeModel(),
@@ -56,6 +59,26 @@ export class EngineService {
 
   public GetAttackSpeedPercent(value: number): number {
     return this.GetPercent(value, this.StatMapValues.get("AttackSpeed")!.min, this.StatMapValues.get("AttackSpeed")!.max);
+  }
+
+  public get Theme(){
+    switch(this.selectedLevel){
+      case this.Levels[0]:
+        return "green";
+      case this.Levels[1]:
+        return "desert";
+      case this.Levels[2]:
+        return "frost";
+      default:
+        return "theme1";
+    }
+  }
+
+  public LevelChanged: Subject<void> = new Subject<void>();
+
+  public SetLevel(level: number){
+    this.selectedLevel = this.Levels[level - 1];
+    this.LevelChanged.next();
   }
 
   constructor() { }

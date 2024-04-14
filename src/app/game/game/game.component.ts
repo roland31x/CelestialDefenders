@@ -30,6 +30,10 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly gameVW = 60;
   private readonly gameVH = 60;
 
+  get Theme(){
+    return this.engine.Theme;
+  }
+
   public readonly AOES: { position: {x : number, y: number}, radius: number, explosion: string, anim: string}[] = [];
 
   get Background() : string{
@@ -79,7 +83,10 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this._selectedDefender = value;
   }
   private _level: number = 1;
-  private _levelModel : LevelModel = this.engine.Levels[this._level - 1];
+  private get _levelModel() : LevelModel{
+    return this.engine.selectedLevel;
+  }
+
   private _defenders : Defender[] = [];
   get defenders(){
     return this._defenders;
@@ -104,9 +111,23 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   public mouseOverMap = false;
   public money : number = 10;
-  public base_hp : number = 10;
+  private _bhp : number = 10;
+  public get base_hp(){
+    return this._bhp;
+  };
+  public set base_hp(value: number){
+    this._bhp = value;
+    if(value <= 0){
+      this.gameStarted = false;
+      this.gameFinished = true;
+      this.ShowOverlayText(["Game over!"], 10000);
+      this.stopasync();
+    }
+  }
 
   public resetting = false;
+  public gameFinished = false;
+  public gameStarted = false;
 
   constructor(
     private engine: EngineService,
@@ -304,8 +325,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     let width = (range / 100) * this.gameVW * 2;
     return `calc((${width}vw + ${width}vh) / 2)`;
   }
-
-  gameStarted = false;
   start(){
     this.ShowOverlayText(["Game started!"], 1000);
     this.gameStarted = true;
@@ -393,7 +412,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ShowWinScreen(){
-    alert("You win!");
+    this.gameFinished = true;
+    this.ShowOverlayText(["You win! Congratulations!"], 25000);
   }
 
   async runDefenders(){
@@ -540,13 +560,22 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   reinit(){
-    this._levelModel = this.engine.Levels[this._level - 1];
+    this.engine.SetLevel(this._level);
     this._defenders = [];
     this._attackers = [];
     this.levelSpawns = this._levelModel.GetSpawns();
   }
 
   clear(){
+    this.stopasync();
+
+    this.defendersMap.clear();
+    this._defenders = [];
+    this._attackers = [];
+    this._projectiles = [];
+  }
+
+  stopasync(){
     this.defenders.forEach(defender => {
       defender.active = false;
     });
@@ -563,10 +592,5 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     this.projectiles.forEach(projectile => {
       projectile.finished = true;
     });
-
-    this.defendersMap.clear();
-    this._defenders = [];
-    this._attackers = [];
-    this._projectiles = [];
   }
 }

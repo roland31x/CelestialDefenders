@@ -52,7 +52,7 @@ export class ExtraAttackSpeed extends DefenderUpgrade{
 
 export class HomingUpgrade extends DefenderUpgrade{
     public constructor(cost: number){
-        super(cost, "Homing", { homing: true });
+        super(cost, "Homing Missiles", { homing: true });
     }
 }
 
@@ -64,6 +64,6 @@ export class ExtraAOERange extends DefenderUpgrade{
 
 export class ExtraDuration extends DefenderUpgrade{
     public constructor(duration_mod: number, cost: number){
-        super(cost, "Extra DOT Duration", { duration: duration_mod });
+        super(cost, "Extra Duration", { duration: duration_mod });
     }
 }

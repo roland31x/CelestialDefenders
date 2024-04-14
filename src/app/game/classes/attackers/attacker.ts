@@ -111,6 +111,7 @@ export abstract class Attacker{
                     }
                     this.alive = false;
                     this.finish.next();
+                    this._currenthealth = 0;
                     break;
                 }
                 nextpath = paths.get(this._pathidx)!;

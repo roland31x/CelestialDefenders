@@ -8,7 +8,7 @@ export class Level3 extends LevelModel {
     public override difficulty = Difficulty.HARD;
     public override name = "Blizzard Mountain";
     public override totalRounds = 35;
-    public override startingMoney = 650;
+    public override startingMoney = 950;
     public override startingLives = 30;
     public override base_moneyPerRound = 250;
     public override round_multiplier = 1.1;

@@ -1,3 +1,6 @@
-<div class="router-div">
-  <router-outlet></router-outlet>
+<div class="full-container" [ngClass]="this.Theme + '-dark-bg'">
+  <div class="router-div" [ngClass]="this.Theme + '-accent-border' + ' ' + this.Theme + '-light-bg'">
+    <router-outlet></router-outlet>
+  </div>
 </div>
+

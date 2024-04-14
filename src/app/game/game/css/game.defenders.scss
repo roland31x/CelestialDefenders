@@ -16,13 +16,12 @@
 }
 
 .defender{
-    border-radius: 3px;
+    border-radius: calc(((0.16vw + 0.16vh) / 2));
     width: calc(((4vw + 4vh) / 2));
     height: calc(((4vw + 4vh) / 2));
-    background-color: var(--main-color-dark);
     border-color: transparent;
     border-style: solid;
-    border-width: 3px;
+    border-width: calc(((0.16vw + 0.16vh) / 2));
     margin: calc(((0.16vw + 0.16vh) / 2));
     transform: rotate(90deg);
 }
@@ -36,13 +35,13 @@
     transform: translate(-50%, -50%);
     z-index: 1001;
     border-radius: 100%;
-    border-width: 2px;
+    border-width: calc(((0.16vw + 0.16vh) / 2));
     border-color: transparent;
     border-style: solid;
 }
 
 .selected-def{
-    border-color: magenta;
+    border-color: crimson;
 }
 
 .defender-obj:hover{
@@ -74,7 +73,7 @@
 }
 
 .defender-desc{
-    margin: 5px 15px;
+    margin: calc(((0.5vw + 0.5vh) / 2)) calc(((1vw + 1vh) / 2));
     text-align: center;
 }
 
