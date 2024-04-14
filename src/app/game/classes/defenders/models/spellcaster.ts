@@ -7,8 +7,8 @@ import { DefenderUpgrade, ExtraAOERange, ExtraAttackSpeed, ExtraDamage, ExtraRan
 export class SpellcasterModel extends DefenderModel{
     public override readonly image = "url(assets/defenders/spellcaster.png)";
     public constructor(){
-        super(10, 13, 200, 0.75, "Spellcaster");
-        this.availableUpgrades = [new ExtraRange(3, 150), new ExtraAttackSpeed(0.25, 300), new ExtraDamage(5, 200), new ExtraAOERange(3, 600)];
+        super(6, 12, 400, 0.75, "Spellcaster");
+        this.availableUpgrades = [new ExtraRange(3, 250), new ExtraAttackSpeed(0.25, 300), new ExtraDamage(6, 400), new ExtraAOERange(3, 600)];
         
         this.description = "Fires exploding magic missiles towards enemies. Especially effective against groups of enemies.";
     }
@@ -36,7 +36,12 @@ export class SpellcasterModel extends DefenderModel{
             actual_damage += upgrade.damage_mod;
         });
 
-        let projectile = new Projectile({x: target_x, y: target_y}, new AOEMagicBall(actual_damage, 6));
+        let actual_radius = 6;
+        upgrades.forEach(upgrade => {
+            actual_radius += upgrade.aoe_radius_mod;
+        });
+
+        let projectile = new Projectile({x: target_x, y: target_y}, new AOEMagicBall(actual_damage, actual_radius));
 
         projectiles.push(projectile);
 

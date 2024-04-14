@@ -8,7 +8,7 @@ export class ArchmageModel extends DefenderModel {
     public override readonly image = "url(assets/defenders/archmage.png)";
 
     public constructor(){
-        super(35, 18, 1500, 0.5, "Archmage");
+        super(35, 20, 1500, 0.5, "Archmage");
         this.availableUpgrades = [new ExtraDamage(5, 500), new ExtraAttackSpeed(0.25, 500), new ExtraAOERange(5, 750)];
         this.description = "A powerful mage that casts a devastating magic missile which explodes dealing massive damage to all enemies in a big area.";
     }

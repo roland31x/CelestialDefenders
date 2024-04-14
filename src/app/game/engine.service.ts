@@ -27,9 +27,9 @@ export class EngineService {
 
   public DefenderModels: DefenderModel[] = [
     new ApprenticeModel(),
-    new SpellcasterModel(),
     new BinderModel(),
     new FreezerModel(),
+    new SpellcasterModel(),
     new WarlockModel(),
     new CurserModel(),
     new ArchmageModel(),
@@ -38,8 +38,8 @@ export class EngineService {
 
   private StatMapValues: Map<string, { min: number, max: number }> = new Map([
     ["Damage", { min: 0, max: 50 }],
-    ["Range", { min: 4, max: 25 }],
-    ["AttackSpeed", { min: 0.05, max: 2 }]
+    ["Range", { min: 5, max: 30 }],
+    ["AttackSpeed", { min: 0, max: 1.5 }]
   ]);
 
   private GetPercent(value: number, min: number, max: number): number {

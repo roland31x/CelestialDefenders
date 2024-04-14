@@ -10,8 +10,8 @@ export class ApprenticeModel extends DefenderModel{
     public override readonly image = "url(assets/defenders/apprentice.png)";
 
     public constructor(){
-        super(6, 10, 100, 1, "Apprentice");
-        this.availableUpgrades = [new ExtraDamage(4,100), new ExtraRange(3,150), new HomingUpgrade(250), new ExtraAttackSpeed(0.5,400)];
+        super(6, 12, 150, 1, "Apprentice");
+        this.availableUpgrades = [new ExtraDamage(6, 150), new ExtraRange(3,150), new HomingUpgrade(250), new ExtraAttackSpeed(0.5,400)];
         this.description = "An apprentice that fires a magic basic magic missile. Targets the furthest progressed enemy.";
     }
 

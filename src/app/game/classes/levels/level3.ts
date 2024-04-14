@@ -1,19 +1,90 @@
 import { Attacker } from "../attackers/attacker";
 import { LevelModel, Difficulty } from "./level-model";
-import { SpawnMap } from "./spawn-map";
+import { SpawnMap, Spawn, RoundMap } from "./spawn-map";
+import { FrostBasic, FrostBoss, FrostGuard, FrostHeavy, FrostScout } from "../attackers/frost-models";
 
 export class Level3 extends LevelModel {
     public background: string = "assets/maps/level3.png";
     public override difficulty = Difficulty.HARD;
     public override name = "Blizzard Mountain";
-
+    public override totalRounds = 35;
+    public override startingMoney = 650;
+    public override startingLives = 30;
+    public override base_moneyPerRound = 250;
+    public override round_multiplier = 1.1;
     constructor(){
         super();
         this.BuildHitboxMap();
     }
 
     public override GetSpawns(): SpawnMap {
-        return new SpawnMap();
+        let spawnMap = new SpawnMap();
+        for(let i = 1; i <= this.totalRounds; i++){
+            let roundmap = new RoundMap(this.GetRoundMinions(i));
+            spawnMap.spawns.set(i, roundmap);
+        }
+        return spawnMap;
+    }
+
+    private BossSpawn(): Spawn[]{
+
+        let spawns : Spawn[] = [];
+
+        spawns.push(new Spawn(new FrostGuard(), 50));
+        spawns.push(new Spawn(new FrostHeavy(), 50));
+        spawns.push(new Spawn(new FrostGuard(), 5500));
+        
+        spawns.push(new Spawn(new FrostBoss(), 5500));
+
+        spawns.push(new Spawn(new FrostGuard(), 50));
+        spawns.push(new Spawn(new FrostHeavy(), 50));
+        spawns.push(new Spawn(new FrostGuard(), 5500));
+
+        return spawns;
+    }
+
+    private GetRoundMinions(round: number): Spawn[]{
+        let spawns : Spawn[] = [];
+
+        if(round >= 10){
+            let boss = this.BossSpawn();
+            boss.forEach(b => spawns.push(b));
+        }
+
+        for(let i = 0; i <= 17 + round; i++){
+            let random = Math.random() * 100;
+            let attacker: Attacker;
+            let delay: number;
+            
+            if(random < 50){
+                attacker = new FrostBasic();
+                delay = 2000 - ((round / this.totalRounds) * 2000) + Math.random() * 1000;
+            }
+            else if(random >= 50 && random < 70){
+                attacker = new FrostScout();
+                delay = 2000 - ((round / this.totalRounds) * 2000) + 1500;
+            }
+            else if(random >= 70 && random < 90){
+                attacker = new FrostHeavy();
+                delay = 2000 - ((round / this.totalRounds) * 2000) + Math.random() * 1500;
+            }
+            else{
+                for(let i = 0; i < 3; i++){
+                    attacker = new FrostBasic();
+                    delay = 150;
+                    spawns.push(new Spawn(attacker, delay));
+                }
+                attacker = new FrostBasic();
+                delay = 2000 - ((round / this.totalRounds) * 2000) + Math.random() * 1000;
+            }
+
+            spawns.push(new Spawn(attacker, delay));
+        }
+
+        let boss = this.BossSpawn();
+        boss.forEach(b => spawns.push(b));
+
+        return spawns; 
     }
 
     protected BuildHitboxMap(){

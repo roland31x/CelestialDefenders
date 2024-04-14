@@ -7,6 +7,11 @@ export class Level1 extends LevelModel {
     public background: string = "assets/maps/level1.png";
     public override difficulty = Difficulty.EASY;
     public override name = "Green Hills";
+    public override totalRounds = 15;
+    public override startingMoney = 450;
+    public override startingLives = 50;
+    public override base_moneyPerRound = 150;
+    public override round_multiplier = 1.05;
 
     constructor(){
         super();
@@ -26,23 +31,15 @@ export class Level1 extends LevelModel {
 
         let spawns : Spawn[] = [];
 
-        for(let i = 0; i < 2; i++){
-            let attacker = new GoblinGuard();
-            let delay = 50;
-            spawns.push(new Spawn(attacker, delay));
-        }
-
+        spawns.push(new Spawn(new GoblinGuard(), 50));
+        spawns.push(new Spawn(new GoblinGuard(), 50));
+        spawns.push(new Spawn(new GoblinGuard(), 2500));
         
-        let boss = new GoblinBoss();
-        let delay = 1000;
-        spawns.push(new Spawn(boss, delay));
+        spawns.push(new Spawn(new GoblinBoss(), 2500));
 
-
-        for(let i = 0; i < 2; i++){
-            let attacker = new GoblinGuard();
-            let delay = 50;
-            spawns.push(new Spawn(attacker, delay));
-        }
+        spawns.push(new Spawn(new GoblinGuard(), 50));
+        spawns.push(new Spawn(new GoblinGuard(), 50));
+        spawns.push(new Spawn(new GoblinGuard(), 500));
 
         return spawns;
     }
@@ -50,22 +47,27 @@ export class Level1 extends LevelModel {
     private GetRoundMinions(round: number): Spawn[]{
         let spawns : Spawn[] = [];
 
-        for(let i = 0; i <= 10 + Math.floor(round / 2); i++){
+        if(round >= 10){
+            let boss = this.BossSpawn();
+            boss.forEach(b => spawns.push(b));
+        }
+
+        for(let i = 0; i <= 17 + round; i++){
             let random = Math.random() * 100;
             let attacker: Attacker;
             let delay: number;
             
             if(random < 50){
                 attacker = new GoblinBasic();
-                delay = 2000 + Math.random() * 1000;
+                delay = 2000 - ((round / this.totalRounds) * 1500) + Math.random() * 1000;
             }
             else if(random >= 50 && random < 70){
                 attacker = new GoblinLight();
-                delay = 2000;
+                delay = 2000 - ((round / this.totalRounds) * 1500);
             }
             else if(random >= 70 && random < 90){
                 attacker = new GoblinHeavy();
-                delay = 2000 + Math.random() * 1500;
+                delay = 2000 - ((round / this.totalRounds) * 1500) + Math.random() * 1500;
             }
             else{
                 for(let i = 0; i < 3; i++){
@@ -74,11 +76,10 @@ export class Level1 extends LevelModel {
                     spawns.push(new Spawn(attacker, delay));
                 }
                 attacker = new GoblinBasic();
-                delay = 2000 + Math.random() * 1000;
+                delay = 2000 - ((round / this.totalRounds) * 1500) + Math.random() * 1000;
             }
 
             spawns.push(new Spawn(attacker, delay));
-
         }
 
         let boss = this.BossSpawn();

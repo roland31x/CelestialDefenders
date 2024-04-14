@@ -8,7 +8,7 @@ export class HolySpiritModel extends DefenderModel {
     public override readonly image = "url(assets/defenders/divine.png)";
 
     public constructor(){
-        super(50, 20, 2500, 0.15, "Holy Spirit");
+        super(50, 25, 2500, 0.15, "Holy Spirit");
         this.availableUpgrades = [new ExtraRange(5, 1000), new ExtraAttackSpeed(0.15, 1000), new ExtraDuration(2000, 1200)];
         this.description = "A divine spirit that blasts the largest enemy in it's range with a powerful fireball that leaves the target on fire.";
     }

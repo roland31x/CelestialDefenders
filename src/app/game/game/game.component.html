@@ -1,5 +1,9 @@
 <img class="map-img halfviewbox" [src]="this.Background">
 
+<div class="overlay-text halfviewbox" [class.opacity-one]="OverlayText.length > 0" [class.opacity-zero]="OverlayText.length == 0">
+    <div class="h2" *ngFor="let text of OverlayText">{{text}}</div>
+</div>
+
 <div class="gamemap halfviewbox" #gameMap (mouseenter)="MouseEnter()" (mouseleave)="MouseLeave()" (mousedown)="MouseDown()">
     <!--<ng-container *ngFor="let tileRow of mapTiles; let row = index">
         <div class="tile" [style.height]="GetTileHeight()" [style.width]="GetTileWidth()" *ngFor="let tile of tileRow; let col = index" [style.grid-column]="col + 1" [style.grid-row]="row + 1" [class.invalid]="tile == 1">
@@ -57,6 +61,7 @@
 <div class="side-menu flex flex-column flex-center">
     <div class="h3">ROUND {{currentRound}} / {{totalRounds}}</div>
     <div class="h4">Money: {{money}}$</div>
+    <div class="h4">Lives: {{base_hp}}</div>
     <div class="sub-title" style="margin-top: 5px;">Defenders</div>
     <div class="full-width">
         <div class="flex flex-row flex-center defenders">
@@ -137,11 +142,11 @@
             Sell for {{selectedDefender.SellValue()}}$
         </div>
     </div>
-    <div class="play-button flex flex-center margins-big" (click)="start()" *ngIf="!gameStarted">
+    <div class="play-button flex flex-center margins-big" (click)="start()" *ngIf="!gameStarted && !resetting">
         Start
     </div>
     <div class="play-button flex flex-center margins-big" (click)="reset()" *ngIf="gameStarted">
-        Restart
+        Reset Level
     </div>
    
     

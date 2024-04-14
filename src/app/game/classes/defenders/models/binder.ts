@@ -8,8 +8,8 @@ export class BinderModel extends DefenderModel {
     public override readonly image = "url(assets/defenders/binder.png)";
 
     public constructor(){
-        super(0, 18, 150, 0.25, "Binder");
-        this.availableUpgrades = [new ExtraAttackSpeed(0.25, 300), new ExtraAOERange(3, 300), new ExtraDuration(750, 500)];
+        super(0, 13, 150, 0.25, "Binder");
+        this.availableUpgrades = [new ExtraDuration(250, 150), new ExtraAttackSpeed(0.25, 300), new ExtraAOERange(3, 300)];
         this.description = "An apprentice mage that casts a homing magic missile stunning enemies in a small area for 1.25s seconds. Targets the furthest progressed enemy.";
     }
 

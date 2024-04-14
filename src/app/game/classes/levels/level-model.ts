@@ -7,7 +7,11 @@ export abstract class LevelModel{
     public abstract background : string;
     public abstract readonly difficulty : Difficulty;
     public abstract readonly name : string;
-    public totalRounds: number = 15;
+    public abstract totalRounds : number;
+    public abstract startingMoney : number;
+    public abstract startingLives : number;
+    public abstract base_moneyPerRound : number;
+    public abstract round_multiplier: number;
     
     public get Width() { return this.hitboxmap.hitboxes[0].length; }
     public get Height() { return this.hitboxmap.hitboxes.length; }

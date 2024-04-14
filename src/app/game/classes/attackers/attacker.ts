@@ -12,6 +12,7 @@ export abstract class Attacker{
     protected _currenthealth: number = 9999;
 
     public death: Subject<void> = new Subject<void>();
+    public finish: Subject<void> = new Subject<void>();
 
     public readonly maxhealth: number;
     public readonly base_speed: number;
@@ -66,7 +67,7 @@ export abstract class Attacker{
             return;
         }
         this._currenthealth = value;
-        if(this._currenthealth <= 0){
+        if(this._currenthealth <= 0 && this.alive){
             this._deathanimation = true;
             this.CurrentEffects.push("Dying");
             setTimeout(() => {this.alive = false; this.death.next();}, 250);
@@ -109,6 +110,7 @@ export abstract class Attacker{
                         this.Move();
                     }
                     this.alive = false;
+                    this.finish.next();
                     break;
                 }
                 nextpath = paths.get(this._pathidx)!;

@@ -9,7 +9,7 @@ export class FreezerModel extends DefenderModel {
 
     public constructor(){
         super(0, 20, 150, 0.25, "Freezer");
-        this.availableUpgrades = [new ExtraRange(3, 150), new ExtraAttackSpeed(0.25, 300), new ExtraDuration(1000, 500) ];
+        this.availableUpgrades = [new ExtraRange(5, 250), new ExtraAttackSpeed(0.25, 300), new ExtraDuration(1000, 500) ];
         this.description = "A skilled mage that casts a homing magic missile towards enemies and freezes them for 2 seconds. Targets the fastest enemy.";
     }
 

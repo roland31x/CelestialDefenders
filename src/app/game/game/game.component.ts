@@ -52,6 +52,8 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.gameMap.nativeElement.getBoundingClientRect().height;
   }
 
+  public OverlayText: string[] = [];
+
   cursorMapX : number = 0;
   cursorMapY : number = 0;
 
@@ -101,7 +103,10 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     return this._levelModel.totalRounds;
   }
   public mouseOverMap = false;
-  public money : number = 550;
+  public money : number = 10;
+  public base_hp : number = 10;
+
+  public resetting = false;
 
   constructor(
     private engine: EngineService,
@@ -302,6 +307,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
 
   gameStarted = false;
   start(){
+    this.ShowOverlayText(["Game started!"], 1000);
     this.gameStarted = true;
     this.runDefenders();
     this.zone.runOutsideAngular(() => this.spawnEnemies())
@@ -326,7 +332,13 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         });
       });
+      
+      let finishsub = attacker.finish.subscribe(() => {
+        this.base_hp -= 1;
+      });
+
       this._attackerSubs.push(deathsub);
+      this._attackerSubs.push(finishsub);
 
       this.hbcheck(attacker);
 
@@ -341,7 +353,30 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       await new Promise(r => setTimeout(r, 25));
     }
 
+    if(!this.gameStarted){
+      return;
+    }
+
+    let earned = this._levelModel.base_moneyPerRound;
+    for(let i = 0; i < this.currentRound; i++){
+      earned *= this._levelModel.round_multiplier;
+    }
+
+    this.ShowOverlayText(["Round " + this.currentRound + " cleared!", "Earned: $" + earned], 2000);
+    this.money += earned;
+
     this.CleanupRound();
+    
+  }
+
+  private ShowOverlayText(text: string[], duration: number){
+    text.forEach(t => {
+      this.OverlayText.push(t);
+    });
+
+    setTimeout(() => {
+      this.OverlayText.splice(0, this.OverlayText.length);
+    }, duration);
   }
 
   private CleanupRound(){
@@ -492,12 +527,16 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  reset(){
+  async reset(){
     this.gameStarted = false;
+    this.resetting = true;
     this.clear();
     this.reinit();
-    this.money = 6550;
+    this.money = this._levelModel.startingMoney;
+    this.base_hp = this._levelModel.startingLives;
     this.currentRound = 1;
+    await new Promise(r => setTimeout(r, 2500));
+    this.resetting = false;
   }
 
   reinit(){

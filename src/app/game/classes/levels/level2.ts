@@ -1,11 +1,17 @@
 import { Attacker } from "../attackers/attacker";
 import { LevelModel, Difficulty } from "./level-model";
-import { SpawnMap } from "./spawn-map";
+import { SpawnMap, Spawn, RoundMap } from "./spawn-map";
+import { DesertBasic, DesertBoss, DesertChieftain, DesertGuard, DesertHeavy, DesertScout } from "../attackers/desert-models";
 
 export class Level2 extends LevelModel {
     public background: string = "assets/maps/level2.png";
     public override difficulty = Difficulty.MEDIUM;
     public override name = "Desert Dunes";
+    public override totalRounds = 22;
+    public override startingMoney = 550;
+    public override startingLives = 40;
+    public override base_moneyPerRound = 200;
+    public override round_multiplier = 1.08;
 
     constructor(){
         super();
@@ -13,7 +19,99 @@ export class Level2 extends LevelModel {
     }
 
     public override GetSpawns(): SpawnMap {
-        return new SpawnMap();
+        let spawnMap = new SpawnMap();
+        for(let i = 1; i <= this.totalRounds; i++){
+            let roundmap = new RoundMap(this.GetRoundMinions(i));
+            spawnMap.spawns.set(i, roundmap);
+        }
+        return spawnMap;
+    }
+
+    private BossSpawn(): Spawn[]{
+        let spawns : Spawn[] = [];
+
+        spawns.push(new Spawn(new DesertGuard(), 50));
+        spawns.push(new Spawn(new DesertGuard(), 50));
+        spawns.push(new Spawn(new DesertGuard(), 2500));
+        
+        spawns.push(new Spawn(new DesertBoss(), 2500));
+
+        spawns.push(new Spawn(new DesertGuard(), 50));
+        spawns.push(new Spawn(new DesertGuard(), 50));
+        spawns.push(new Spawn(new DesertGuard(), 500));
+
+        return spawns;
+    }
+
+    private ChiefSpawn(): Spawn[]{
+        let spawns : Spawn[] = [];
+
+        spawns.push(new Spawn(new DesertGuard(), 50));
+        spawns.push(new Spawn(new DesertHeavy(), 50));
+        spawns.push(new Spawn(new DesertGuard(), 3500));
+        
+        spawns.push(new Spawn(new DesertChieftain(), 3500));
+
+        spawns.push(new Spawn(new DesertGuard(), 50));
+        spawns.push(new Spawn(new DesertHeavy(), 50));
+        spawns.push(new Spawn(new DesertGuard(), 4500));
+
+        return spawns;
+    }
+
+    private GetRoundMinions(round: number): Spawn[]{
+        let spawns : Spawn[] = [];
+
+        if(round >= 10){
+            let boss = this.BossSpawn();
+            boss.forEach(b => spawns.push(b));
+        }
+
+        for(let i = 0; i <= 17 + round; i++){
+            let random = Math.random() * 100;
+
+            if(round > 10 && random >= 10 && random <= 15){
+                let chieftain = this.BossSpawn();
+                chieftain.forEach(c => spawns.push(c));
+                continue;
+            }
+
+            let attacker: Attacker;
+            let delay: number;
+            
+            if(random < 50){
+                attacker = new DesertBasic();
+                delay = 2000 - ((round / this.totalRounds) * 1750) + Math.random() * 1000;
+            }
+            else if(random >= 50 && random < 70){
+                attacker = new DesertScout();
+                delay = 2000 - ((round / this.totalRounds) * 1750) + 1000;
+            }
+            else if(random >= 70 && random < 90){
+                attacker = new DesertHeavy();
+                delay = 2000 - ((round / this.totalRounds) * 1750) + Math.random() * 1500;
+            }
+            else{
+                for(let i = 0; i < 3; i++){
+                    attacker = new DesertBasic();
+                    delay = 150;
+                    spawns.push(new Spawn(attacker, delay));
+                }
+                attacker = new DesertBasic();
+                delay = 2000 - ((round / this.totalRounds) * 1750) + Math.random() * 1000;
+            }
+
+            spawns.push(new Spawn(attacker, delay));
+        }
+
+        if(round < 10){
+            this.BossSpawn().forEach(b => spawns.push(b));
+        }
+        else{
+            this.ChiefSpawn().forEach(c => spawns.push(c));
+        }
+
+        return spawns; 
     }
 
     protected BuildHitboxMap(){

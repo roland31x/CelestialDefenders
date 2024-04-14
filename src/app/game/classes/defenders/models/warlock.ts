@@ -2,13 +2,13 @@ import { Attacker } from "../../attackers/attacker";
 import { Projectile } from "../../projectiles/projectile";
 import { AOEPoisonBall } from "../../projectiles/projectile-models";
 import { DefenderModel } from "../defender";
-import { DefenderUpgrade, ExtraAOERange, ExtraAttackSpeed, ExtraDamage, ExtraDuration, ExtraRange } from "../defender-upgrades";
+import { DefenderUpgrade, ExtraAOERange, ExtraAttackSpeed, ExtraDamage, ExtraDuration } from "../defender-upgrades";
 
 export class WarlockModel extends DefenderModel {
     public override readonly image = "url(assets/defenders/warlock.png)";
 
     public constructor(){
-        super(20, 15, 800, 0.5, "Warlock");
+        super(18, 16, 800, 0.5, "Warlock");
         this.availableUpgrades = [new ExtraDamage(5, 500), new ExtraAttackSpeed(0.25, 500), new ExtraDuration(1500, 600), new ExtraAOERange(3, 750)];
         this.description = "Casts a powerful spell that poisons enemies in a small area dealing damage over time. Especially effective against large groups of enemies.";
     }

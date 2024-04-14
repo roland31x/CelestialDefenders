@@ -8,7 +8,7 @@ export class CurserModel extends DefenderModel {
     public override readonly image = "url(assets/defenders/curser.png)";
 
     public constructor(){
-        super(20, 20, 900, 0.25, "Curser");
+        super(20, 20, 1000, 0.25, "Curser");
         this.availableUpgrades = [ new ExtraAttackSpeed(0.25, 500), new ExtraAOERange(3, 750)];
         this.description = "A powerful necromancer that casts a curse spell cursing and slowing down enemies by 50% for 3 seconds in a small area. Targets the largest enemy.";
     }
