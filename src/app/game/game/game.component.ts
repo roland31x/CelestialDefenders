@@ -377,6 +377,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     for(let i = 0; i < this.currentRound; i++){
       earned *= this._levelModel.round_multiplier;
     }
+    earned = Math.floor(earned);
 
     this.ShowOverlayText(["Round " + this.currentRound + " cleared!", "Earned: $" + earned], 2000);
     this.money += earned;
