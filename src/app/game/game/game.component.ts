@@ -362,7 +362,6 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hbcheck(attacker);
 
       current += 1;
-
       await new Promise(r => setTimeout(r, delay));
     }
 
